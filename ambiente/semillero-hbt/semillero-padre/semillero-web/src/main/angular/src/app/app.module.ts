@@ -21,6 +21,10 @@ export { ResultadoDTO } from './semillero/dto/resultado.dto';
 
 import {EjemploService} from './semillero/services/ejemplo.service';
 import {AbstractService} from './semillero/services/template.service';
+/*
+*@description intruccion que importa la clase ActividadComponent
+*/
+import { ActividadComponent } from './semillero/componentes/primeraActividad/primeraActividad-component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,8 @@ import {AbstractService} from './semillero/services/template.service';
     MenuComponent,
     BienvenidaComponent,
     CrearPersonaComponent,
-    GestionarComicComponent
+    GestionarComicComponent,
+    ActividadComponent
   ],
   imports: [
     BrowserModule,
