@@ -14,6 +14,8 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
+
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
 
@@ -27,6 +29,8 @@ import com.hbt.semillero.entidad.Comic;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class GestionarComicBean implements IGestionarComicLocal {
+	
+	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
 
 	/**
 	 * Atributo em que se usa para interacturar con el contexto de persistencia.
@@ -95,6 +99,7 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ComicDTO> consultarComics() {
 		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
+		logger.debug("se ejecuta el metodo consultar commit");
 		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
 		for (Comic comic:resultados) {
 			resultadosComicDTO.add(convertirComicToComicDTO(comic));
