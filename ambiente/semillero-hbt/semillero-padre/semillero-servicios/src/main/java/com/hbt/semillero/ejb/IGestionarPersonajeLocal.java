@@ -1,9 +1,14 @@
 package com.hbt.semillero.ejb;
 
 import java.util.List;
-import com.hbt.semillero.dto.PersonaDTO;
 
-public interface GestionarInformacioPersona {
+import javax.ejb.Local;
+
+import com.hbt.semillero.dto.PersonajeDTO;
+
+
+@Local
+public interface IGestionarPersonajeLocal {
 	
 	/**
 	 * 
@@ -11,9 +16,9 @@ public interface GestionarInformacioPersona {
 	 * 
 	 * @author ccastano
 	 * 
-	 * @param comicNuevo informacion nueva a crear
+	 * @param personajeNuevo informacion nueva a crear
 	 */
-	public void crearPersona(PersonaDTO comicNuevo);
+	public void crearPersonaje(PersonajeDTO comicNuevo);
 
 	/**
 	 * 
@@ -23,7 +28,7 @@ public interface GestionarInformacioPersona {
 	 * 
 	 * @param comicModificar informacion nueva a modificar
 	 */
-	public void modificarPersona(Long id, String nombre, PersonaDTO comicNuevo);
+	public void modificarPersonaje(Long id, String nombre, PersonajeDTO comicNuevo);
 
 	/**
 	 * 
@@ -33,7 +38,7 @@ public interface GestionarInformacioPersona {
 	 * 
 	 * @param comicEliminar informacion a eliminar
 	 */
-	public void eliminarPersona(Long idComic);
+	public void eliminarPersonaje(Long idComic);
 
 	/**
 	 * 
@@ -43,7 +48,7 @@ public interface GestionarInformacioPersona {
 	 * @return comic Resultado de la consulta
 	 * @throws Exception si no se recibe idComic
 	 */
-	public PersonaDTO consultarPersona(String idComic);
+	public List<PersonajeDTO> consultarPersonaje(Long idComic);
 
 	/**
 	 * 
@@ -51,6 +56,6 @@ public interface GestionarInformacioPersona {
 	 * 
 	 * @return
 	 */
-	public List<PersonaDTO> consultarPersona();
+	public List<PersonajeDTO>  consultarPersonaje();
 
 }

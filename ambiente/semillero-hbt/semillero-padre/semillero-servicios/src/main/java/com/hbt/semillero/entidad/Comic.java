@@ -35,8 +35,8 @@ public class Comic implements Serializable {
 	 * array de bytes.
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long id;
-	private String nombre;
+	Long id;
+	String nombre;
 	private String editorial;
 	private TematicaEnum tematicaEnum;
 	private String coleccion;
@@ -45,7 +45,7 @@ public class Comic implements Serializable {
 	private String autores;
 	private Boolean color;
 	private LocalDate fechaVenta;
-	private EstadoEnum estadoEnum;
+	EstadoEnum estadoEnum;
 	private Long cantidad;
 
 	/**

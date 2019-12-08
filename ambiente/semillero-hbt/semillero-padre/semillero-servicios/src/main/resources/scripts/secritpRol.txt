@@ -1,0 +1,14 @@
+create table rol (
+  rol_id number(10) not null,
+  rol_nombre varchar2(50) constraint UK_NOMBRE unique,
+  rol_estado varchar2(50 char) not null,
+  constraint "rol_estado_CHK" check (rol_estado IN('ACTIVO','INACTIVO')),
+  constraint "PK_rol" PRIMARY KEY (rol_id)
+);
+
+
+create sequence "SEC_ROL" minvalue 1 start with 1 increment by 2;
+
+insert into ROL (rol_id, rol_nombre,rol_estado)
+    VALUES (SEC_ROL.nextval, 'weerr', 'ACTIVO');
+  commit;
