@@ -1,0 +1,34 @@
+
+<div class="container">
+        <h6>Me llamo: {{nombre +". Lugar de residencia "+ ciudad}}.</h6> 
+
+        <ul class="list-group">
+                <li class="list-group-item" *ngFor = "let valor of arrayVista"> {{valor}}</li>
+        </ul>
+
+        <br><br>
+        <div class="form-group row">
+               
+                <div class="form-row align-items-center">
+
+                        <div class="col-auto">
+                                        <button type="button" class="btn btn-primary" (click)="eliminarElemeto()">Eliminar Dato</button>
+                        </div>
+                        <div class="col-auto">
+                          <label class="sr-only" for="inlineFormInput">Name</label>
+                          <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Digita un Numero" [(ngModel)]="numero">
+                        </div>
+                 
+
+                      </div>
+        </div>
+
+        
+        <div class="form-group" *ngIf="mostrarMensaje">
+                
+                <input type="text" class="form-control is-valid" id="validation01" 
+                placeholder="Comic Eliminado" value="{{'Se ha eliminado el comic '+ valorEliminado}}" required>
+        </div>
+        
+
+</div>

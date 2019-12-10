@@ -17,14 +17,17 @@ import { GestionarComicComponent } from './semillero/componentes/gestionarComic/
 export { ComicDTO } from './semillero/dto/comic.dto';
 export { ResultadoDTO } from './semillero/dto/resultado.dto';
 
-//Manejo de servicios
+// Manejo de servicios
 
 import {EjemploService} from './semillero/services/ejemplo.service';
 import {AbstractService} from './semillero/services/template.service';
+
 /*
-*@description intruccion que importa la clase ActividadComponent
+*@description intruccion que importa la clase GestionarObjetoComponent
 */
-import { ActividadComponent } from './semillero/componentes/primeraActividad/primeraActividad-component';
+
+import { GestionarObjetoComponent } from './semillero/componentes/gestionarObjeto/gestionarObjeto.component';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +36,7 @@ import { ActividadComponent } from './semillero/componentes/primeraActividad/pri
     BienvenidaComponent,
     CrearPersonaComponent,
     GestionarComicComponent,
-    ActividadComponent
+    GestionarObjetoComponent
   ],
   imports: [
     BrowserModule,
@@ -44,10 +47,10 @@ import { ActividadComponent } from './semillero/componentes/primeraActividad/pri
     ReactiveFormsModule
   ],
   providers: [
-  	{ provide: APP_BASE_HREF, useValue: '/SemilleroHBT' }
+  { provide: APP_BASE_HREF, useValue: '/SemilleroHBT' }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 
 }
