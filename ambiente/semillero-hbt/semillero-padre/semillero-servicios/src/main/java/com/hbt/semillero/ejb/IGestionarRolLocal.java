@@ -14,7 +14,7 @@ public interface IGestionarRolLocal {
 	 * 
 	 * @param rolNuevo informacion nueva a crear
 	 */
-	public void crearRol(RolDTO comicNuevo);
+	public void crearRol(RolDTO rolNuevo);
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public interface IGestionarRolLocal {
 	 * 
 	 * @param rolModificar informacion nueva a modificar
 	 */
-	public void modificarRol(Long id, String nombre, RolDTO comicNuevo);
+	public void modificarRol(Long id, String nombre, RolDTO rolNuevo);
 
 	/**
 	 * 

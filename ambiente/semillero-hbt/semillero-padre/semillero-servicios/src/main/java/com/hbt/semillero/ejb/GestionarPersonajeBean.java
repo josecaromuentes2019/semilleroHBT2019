@@ -1,18 +1,23 @@
 package com.hbt.semillero.ejb;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 
-
-import com.hbt.semillero.dto.PersonajeDTO;
-import com.hbt.semillero.entidad.Comic;
-import com.hbt.semillero.entidad.Personaje;
-
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
+
+import com.hbt.semillero.dto.PersonajeDTO;
+import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.entidad.Personaje;
 
 
 
@@ -26,144 +31,124 @@ import org.apache.log4j.Logger;
  */
 
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class GestionarPersonajeBean implements IGestionarPersonajeLocal{
 	
-	//entitymanager para las operaciones que se realicen sobre la BD
+
+	final static Logger logger = Logger.getLogger(GestionarPersonajeBean.class);
+
+	/**
+	 * Atributo em que se usa para interacturar con el contexto de persistencia.
+	 */
 	@PersistenceContext
-	private EntityManager entitymanager; 
-	
-final static Logger logger = Logger.getLogger(GestionarPersonajeBean.class);
-	
-	
+	private EntityManager entityManager;
+
 	/**
 	 * 
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#crearPersona(com.hbt.semillero.dto.ComicDTO)
+	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#crearComic(com.hbt.semillero.dto.PersonajeDTO)
 	 */
-
-	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void crearPersonaje(PersonajeDTO personajeNuevo) {
-		// TODO Auto-generated method stub
-		
-		Personaje personaje = convertirDTOEntidad(personajeNuevo);
-		entitymanager.persist(personaje);
-		
-		
-		logger.debug("finaliza el metodo crear Personaje");
+		logger.debug("Aqui inicia el metodo CrearPersonaje");
+		// Entidad nueva
+		Personaje personaje = convertirPersonaDTOToPersonaje(personajeNuevo);
+		// Se almacena la informacion y se maneja la enidad comic
+		entityManager.persist(personaje);
+		logger.debug("Aqui finaliza el metodo CrearPersonaje");
 	}
-	
-	
-	
+
 	/**
 	 * 
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarPersona(java.lang.Long)
+	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#modificarPersonaje(com.hbt.semillero.dto.PersonajeDTO)
 	 */
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void modificarPersonaje(Long id, String nombre, PersonajeDTO personajeNuevo) {
+		logger.debug("Aqui inicia el metodo ModificarPersonaje");
 
-	@Override
+		logger.debug("Aqui finaliza el metodo ModificarPersonaje");
+	}
+
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#eliminarPersonaje(java.lang.Long)
+	 */
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void eliminarPersonaje(Long idPersonaje) {
-		// TODO Auto-generated method stub
-		
-		logger.debug("se ejecuta el metodo eliminar Personaje");
-		
-		
-		logger.debug("finaliza el metodo eliminar Personaje");
-		
-	}
-	
-	
-	/**
-	 * 
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarPersona(java.lang.String)
-	 */
-	@Override
-	public List<PersonajeDTO> consultarPersonaje(Long idComic) {
-		
-		// TODO Auto-generated method stub
-		
-				logger.debug("se ejecuta el metodo consultar Personaje");
-				
-				String query = "SELECT personaje"+
-								"FROM Personaje personaje"+
-								"WHERE personaje.Comic.id = :idComic";
-				
-				List<Personaje> listaPersonaje = entitymanager.createQuery(query).setParameter("idComic", idComic).getResultList();
-				
-				List<PersonajeDTO> listaPersonajesDTO = new ArrayList();
-				
-				for (Personaje personaje : listaPersonaje) {
-					listaPersonajesDTO.add(convertirEntidadToDTO(personaje));
-				}
-				
-				logger.debug("finaliza el metodo consultar Personaje");
-				return listaPersonajesDTO;
-	
-	}
-	
-	
-	/**
-	 * 
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComics()
-	 */
+		logger.debug("Aqui inicia el metodo EliminarPersonaje");
 
+		logger.debug("Aqui finaliza el metodo EliminarPersonaje");
+	}
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<PersonajeDTO> consultarPersonaje() {
-		// TODO Auto-generated method stub
-		
-		logger.debug("se ejecuta el metodo consultar Personaje");
-		
-		String query = "SELECT personaje"+
-						"FROM Personaje personaje";
-		
-		List<Personaje> listaPersonaje = entitymanager.createQuery(query).getResultList();
-		
-		List<PersonajeDTO> listaPersonajesDTO = new ArrayList();
-		
-		for (Personaje personaje : listaPersonaje) {
-			listaPersonajesDTO.add(convertirEntidadToDTO(personaje));
+		logger.debug("Aqui inicia el metodo EliminarPersonaje");
+
+		String query = "SELECT personaje FROM PERSONAJE personaje";
+		// List<PersonajeDTO> listarPersonajes = new ArrayList<PersonajeDTO>();
+		List<Personaje> resultados = entityManager.createQuery(query).getResultList();
+		List<PersonajeDTO> resultadosPersonajeDTO = new ArrayList<PersonajeDTO>();
+
+		for (Personaje personaje : resultados) {
+			resultadosPersonajeDTO.add(convertirPersonajeToPersonajecDTO(personaje));
 		}
-		
-		logger.debug("finaliza el metodo consultar Personaje");
-		return listaPersonajesDTO;
+		logger.debug("Aqui finaliza el metodo EliminarPersonaje");
+
+		return resultadosPersonajeDTO;
 	}
 
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public void modificarPersonaje (Long id, String nombre, PersonajeDTO comicNuevo) {
-		// TODO Auto-generated method stub
-		logger.debug("se ejecuta el metodo modificar Personaje");
-		
-		
-		logger.debug("finaliza el metodo modificar Personaje");
-		
+	public List<PersonajeDTO> consultarPersonajes(Long idComic) {
+		logger.debug("Aqui inicia el metodo EliminarPersonaje");
+
+		String query = "SELECT personaje FROM PERSONAJE personaje WHERE personaje.comic.id = :idComic ";
+		// List<PersonajeDTO> listarPersonajes = new ArrayList<PersonajeDTO>();
+		List<Personaje> resultados = entityManager.createQuery(query).setParameter("idComic", idComic).getResultList();
+		List<PersonajeDTO> resultadosPersonajeDTO = new ArrayList<PersonajeDTO>();
+
+		for (Personaje personaje : resultados) {
+			resultadosPersonajeDTO.add(convertirPersonajeToPersonajecDTO(personaje));
+		}
+		logger.debug("Aqui finaliza el metodo EliminarPersonaje");
+
+		return resultadosPersonajeDTO;
 	}
-	
-	
-	private Personaje convertirDTOEntidad(PersonajeDTO personajeNuevo) {
-		
-		Personaje personaje  = new Personaje();
-		
-		personaje.setNombre(personajeNuevo.getNombre());
-		personaje.setId(personajeNuevo.getId());
+
+	/**
+	 * 
+	 * Metodo encargado de transformar un comicDTO a un comic
+	 * 
+	 * @param comic
+	 * @return
+	 */
+	private Personaje convertirPersonaDTOToPersonaje(PersonajeDTO personajeDTO) {
+		Personaje personaje = new Personaje();
+		personaje.setNombre(personajeDTO.getNombre());
+		personaje.setId(personajeDTO.getId());
 		personaje.setComic(new Comic());
-		personaje.getComic().setId(personajeNuevo.getId());
-		personaje.setEstado(personajeNuevo.getEstado());
-		personaje.setSuperPoder(personajeNuevo.getSuperPoder());
-		
+		personaje.getComic().setId((personajeDTO.getIdComic()));
+		personaje.setEstado(personajeDTO.getEstado());
+		personaje.setSuperPoder(personajeDTO.getSuperPoder());
+
 		return personaje;
-		
 	}
-	
-private PersonajeDTO convertirEntidadToDTO(Personaje personaje) {
-		
-	PersonajeDTO personajeDto  = new PersonajeDTO();
-		
-	personajeDto.setNombre(personaje.getNombre());
-	personajeDto.setId(personaje.getId());
-	personajeDto.setIdComic(personaje.getComic().getId());
-	personajeDto.setEstado(personaje.getEstado());
-	personajeDto.setSuperPoder(personaje.getSuperPoder());
-		
-		return personajeDto;
-		
+
+	/**
+	 * 
+	 * Metodo encargado de transformar un comic a un comicDTO
+	 * 
+	 * @param comic
+	 * @return
+	 */
+	private PersonajeDTO convertirPersonajeToPersonajecDTO(Personaje personaje) {
+		PersonajeDTO personajeDTO = new PersonajeDTO();
+		personajeDTO.setIdComic(personaje.getComic().getId());
+		personajeDTO.setEstado(personajeDTO.getEstado());
+		personajeDTO.setSuperPoder(personajeDTO.getSuperPoder());
+		personajeDTO.setNombre(personajeDTO.getNombre());
+		personajeDTO.setId(personajeDTO.getId());
+		return personajeDTO;
 	}
 
 }

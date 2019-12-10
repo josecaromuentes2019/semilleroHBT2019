@@ -6,13 +6,14 @@ import { Component, OnInit } from '@angular/core';
 */
 
 @Component({
-    selector:'Actividad',
+    // tslint:disable-next-line:component-selector
+    selector : 'Actividad',
     templateUrl: './primeraActividad-component.html'
 })
 
 export class ActividadComponent implements OnInit {
     /*
-    *@description declaracion de vaaribles globales
+    *@description declaracion de varibles globales
     */
 
     public nombre: string;
@@ -26,14 +27,13 @@ export class ActividadComponent implements OnInit {
 
     ngOnInit(): void {
 
-        /*
-        *@Description variable para asignar el nombre del auto
-        */
+        // Description variable para asignar el nombre del autor
+
         this.nombre = 'Jose Eusebio Caro Muentes';
 
-        /*
-        * @Description variable para almacenar la ciudad de residencia del autor
-        */
+
+        // Description variable para almacenar la ciudad de residencia del autor
+
         this.ciudad = 'Valencia Cordoba';
 
 

@@ -40,8 +40,8 @@ public class Rol implements Serializable{
 	 * @return El id asociado a la clase
 	 */
 	@Id
-	@SequenceGenerator(allocationSize = 1, name = "COMIC_SCID_GENERATOR", sequenceName = "SEQ_COMIC")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMIC_SCID_GENERATOR")
+	@SequenceGenerator(allocationSize = 1, name = "ROL_SEC_ROL_GENERATOR", sequenceName = "SEC_ROL")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROL_SEC_ROL_GENERATOR")
 	@Column(name = "ROL_ID")
 	public Long getId() {
 		return id;

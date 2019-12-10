@@ -15,7 +15,7 @@ import com.hbt.semillero.entidad.Rol;
 
 public class GestionarRolBean implements IGestionarRolLocal{
 	
-	private EntityManager entitymanager; 
+	private EntityManager entityManager; 
 	final static Logger logger = Logger.getLogger(GestionarRolBean.class);
 
 	@Override
@@ -24,7 +24,7 @@ public class GestionarRolBean implements IGestionarRolLocal{
 		
 		
 		Rol rol = convertirDTOEntidad(rolNuevo);
-		entitymanager.persist(rolNuevo);
+		entityManager.persist(rolNuevo);
 		
 		
 		logger.debug("finaliza el metodo crear Personaje");
@@ -32,7 +32,7 @@ public class GestionarRolBean implements IGestionarRolLocal{
 	}
 
 	@Override
-	public void modificarRol(Long id, String nombre, RolDTO comicNuevo) {
+	public void modificarRol(Long id, String nombre, RolDTO rolNuevo) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -52,7 +52,7 @@ public class GestionarRolBean implements IGestionarRolLocal{
 						"FROM Rol rol"+
 						"WHERE rol.id = :idRol";
 		
-		List<Rol> listaRol = entitymanager.createQuery(query).setParameter("id", idRol).getResultList();
+		List<Rol> listaRol = entityManager.createQuery(query).setParameter("id", idRol).getResultList();
 		
 		List<RolDTO> listaRolDTO = new ArrayList();
 		
@@ -72,7 +72,7 @@ public class GestionarRolBean implements IGestionarRolLocal{
 		String query = "SELECT rol"+
 						"FROM Rol rol";
 		
-		List<Rol> listaRol = entitymanager.createQuery(query).getResultList();
+		List<Rol> listaRol = entityManager.createQuery(query).getResultList();
 		
 		List<RolDTO> listaRolDTO = new ArrayList();
 		

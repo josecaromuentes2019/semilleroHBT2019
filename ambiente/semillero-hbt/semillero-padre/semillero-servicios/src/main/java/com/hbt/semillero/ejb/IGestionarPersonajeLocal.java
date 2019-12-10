@@ -9,53 +9,47 @@ import com.hbt.semillero.dto.PersonajeDTO;
 
 @Local
 public interface IGestionarPersonajeLocal {
-	
 	/**
 	 * 
-	 * Metodo encargado de crear un comic y persistirlo
+	 * Metodo encargado de crear un personaje y persistirlo
 	 * 
 	 * @author ccastano
 	 * 
 	 * @param personajeNuevo informacion nueva a crear
 	 */
-	public void crearPersonaje(PersonajeDTO comicNuevo);
+	public void crearPersonaje(PersonajeDTO personajeNuevo);
 
 	/**
 	 * 
-	 * Metodo encargado de consultar un comic modificarlo y guardarlo
+	 * Metodo encargado de consultar un personaje modificarlo y guardarlo
 	 * 
 	 * @author ccastano
 	 * 
-	 * @param comicModificar informacion nueva a modificar
+	 * @param personajeModificar informacion nueva a modificar
 	 */
-	public void modificarPersonaje(Long id, String nombre, PersonajeDTO comicNuevo);
+	public void modificarPersonaje(Long id, String nombre, PersonajeDTO personajeNuevo);
 
 	/**
 	 * 
-	 * Metodo encargado de eliminar un comic modificarlo y guardarlo
+	 * Metodo encargado de eliminar un personaje modificarlo y guardarlo
 	 * 
 	 * @author ccastano
 	 * 
-	 * @param comicEliminar informacion a eliminar
+	 * @param personajeEliminar informacion a eliminar
 	 */
-	public void eliminarPersonaje(Long idComic);
+	public void eliminarPersonaje(Long idPersonaje);
 
 	/**
 	 * 
-	 * Metodo encargado de retornar la informacion de un comic
+	 * Metodo encargado de retornar la informacion de un personaje
 	 * 
-	 * @param idComic identificador del comic a ser consultado
-	 * @return comic Resultado de la consulta
-	 * @throws Exception si no se recibe idComic
+	 * @param idPersonaje identificador del personaje a ser consultado
+	 * @return personaje resultado de la consulta
+	 * @throws Exception si no se recibe idPersonaje
 	 */
-	public List<PersonajeDTO> consultarPersonaje(Long idComic);
+	public  List<PersonajeDTO> consultarPersonaje();
+	
+	public List<PersonajeDTO>  consultarPersonajes(Long idComic);
 
-	/**
-	 * 
-	 * Metodo encargado de retornar una lista de comics
-	 * 
-	 * @return
-	 */
-	public List<PersonajeDTO>  consultarPersonaje();
-
+	
 }

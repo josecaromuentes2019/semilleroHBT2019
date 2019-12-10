@@ -7,25 +7,23 @@ import com.hbt.semillero.entidad.EstadoEnum;
 
 public class PersonajeDTO implements Serializable{
 	
-	
-
-	/**
-	 * 
+	/*
+	 * Atributo que determina
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	
-	private long id;
+	
+	private Long id;
 	private String nombre;
-	private long idComic;
-	private String superPoder;
+	private Long idComic;
 	private EstadoEnum estado;
+	private String superPoder;
 	
-	
-	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getNombre() {
@@ -34,7 +32,18 @@ public class PersonajeDTO implements Serializable{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+	public Long getIdComic() {
+		return idComic;
+	}
+	public void setIdComic(Long idComic) {
+		this.idComic = idComic;
+	}
+	public EstadoEnum getEstado() {
+		return estado;
+	}
+	public void setEstado(EstadoEnum estado) {
+		this.estado = estado;
+	}
 	public String getSuperPoder() {
 		return superPoder;
 	}
@@ -42,20 +51,8 @@ public class PersonajeDTO implements Serializable{
 		this.superPoder = superPoder;
 	}
 	
-	public EstadoEnum getEstado() {
-		return estado;
-	}
-	public void setEstado(EstadoEnum estado) {
-		this.estado = estado;
-	}
 	
 	
-	public long getIdComic() {
-		return idComic;
-	}
-	public void setIdComic(long idComic) {
-		this.idComic = idComic;
-	}
 	/**
 	 * Método encargado de convertir los datos recibidos en JSON al tipo PersonajeDTO.
 	 * <b>Caso de Uso:</b>
@@ -79,6 +76,5 @@ public class PersonajeDTO implements Serializable{
 	public String toString() {
 		return JsonUtils.toStringJson(this);
 	}
-	
 
 }

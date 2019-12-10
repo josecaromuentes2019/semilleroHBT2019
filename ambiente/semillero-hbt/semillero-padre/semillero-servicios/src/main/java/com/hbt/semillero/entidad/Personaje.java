@@ -2,6 +2,8 @@ package com.hbt.semillero.entidad;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,14 +17,25 @@ import javax.persistence.Table;
 @Table(name  = "PERSONAJE")
 public class Personaje {
 	
-	private static final long serialversionUID = 1L;
+
+	/**
+	 * Serializar es pasar un Objeto a un array de bytes y viceversa. Atributo que
+	 * determina serialVersionUID es el id Ãºnico que identifica una clase cuando lo
+	 * serializamos. ;ediante este id podemos identificar el objeto convertido en un
+	 * array de bytes.
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	
+	/**
+	 * Metodo encargado de retornar el valor del atributo id
+	 * 
+	 * @return El id asociado a la clase
+	 */
 	@Id
-	@SequenceGenerator(allocationSize = 1, name = "PERSONAJE_ID_GENERATOR", sequenceName = "SEQ_PERSONAJE")
+	@SequenceGenerator(allocationSize = 1, name = "PERSONAJE_ID_GENERATOR", sequenceName = "SEC_PERSONAJE")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSONAJE_ID_GENERATOR")
 	@Column(name = "PERS_ID")
-	private long id;
+	private Long id;
 	
 	@Column(name = "PERS_NOMBRE")
 	private String nombre;
@@ -32,18 +45,17 @@ public class Personaje {
 	private Comic comic;
 	
 	@Column(name = "PERS_ESTADO")
+	@Enumerated(value = EnumType.STRING)
 	private EstadoEnum estado;
 	
 	@Column(name = "PERS_SUPERPODER")
 	private String superPoder;
-	
-	
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -63,6 +75,7 @@ public class Personaje {
 		this.comic = comic;
 	}
 
+
 	public EstadoEnum getEstado() {
 		return estado;
 	}
@@ -78,8 +91,7 @@ public class Personaje {
 	public void setSuperPoder(String superPoder) {
 		this.superPoder = superPoder;
 	}
+	
 
-	
-	
 	
 }

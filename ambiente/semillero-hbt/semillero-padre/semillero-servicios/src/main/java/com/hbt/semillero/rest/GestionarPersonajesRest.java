@@ -16,29 +16,48 @@ import org.hibernate.service.spi.InjectService;
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.GestionarPersonajeBean;
+import com.hbt.semillero.ejb.IGestionarPersonajeLocal;
 
 @Path("/GestionarPersonaje")
 public class GestionarPersonajesRest {
 
+
 	@EJB
-	private GestionarPersonajeBean  gestionarPersonajeBean;
+	private IGestionarPersonajeLocal gestionarPersonajeEJB;
+
 	
-	@POST
-	@Path("/crear")
-	public void crearPersonaje(PersonajeDTO personejeDTO) {
+	@GET
+	@Path("/consultarPersonaje")
+	@Produces(MediaType.APPLICATION_JSON)
+	public  List<PersonajeDTO> consultarPersonaje(){
+		return gestionarPersonajeEJB.consultarPersonaje();
 		
-		gestionarPersonajeBean.crearPersonaje(personejeDTO);
-	}
+	};
 	
 	@GET
-	@Path("/consultarPersonaje")
-	public List<PersonajeDTO> consultarPersonaje(@QueryParam("idComic") Long idComic){
-		return gestionarPersonajeBean.consultarPersonaje(idComic);
-	}
+	@Path("/consultarPersonajeId")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<PersonajeDTO>  consultarPersonajes(@QueryParam("idComic") Long idComic){
+		return gestionarPersonajeEJB.consultarPersonajes(idComic);
+		
+	};
+	/**
+	 * 
+	 * Metodo encargado de crear un personaje y persistirlo
+	 * 
+	 * @author ccastano
+	 * 
+	 * @param personajeNuevo informacion nueva a crear
+	 */
+	@POST
+	@Path("/crearPersonaje")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void crearPersonaje(PersonajeDTO personajeNuevo) {
+		gestionarPersonajeEJB.crearPersonaje(personajeNuevo);
+		
+	};
+
+
 	
-	@GET
-	@Path("/consultarPersonaje")
-	public List<PersonajeDTO>  consultarPersonaje(){
-		return gestionarPersonajeBean.consultarPersonaje();
-	}
 }
