@@ -3,9 +3,13 @@
  */
 package com.hbt.semillero.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Transient;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,7 +20,10 @@ import javax.ws.rs.core.MediaType;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
+import com.hbt.semillero.ejb.GestionarPersonajeBean;
 import com.hbt.semillero.ejb.IGestionarComicLocal;
+import com.hbt.semillero.entidad.CalcularPrecioTotal;
+import com.hbt.semillero.entidad.Comic;
 
 /**
  * <b>Descripción:<b> Clase que determina el servicio rest que permite gestionar
@@ -28,12 +35,17 @@ import com.hbt.semillero.ejb.IGestionarComicLocal;
 @Path("/GestionarComic")
 public class GestionarComicRest {
 
+	@Transient
+	private double iva;
+	
+	@PersistenceContext
+	private EntityManager em;
 	/**
 	 * Atriburo que permite gestionar un comic
 	 */
 	@EJB
 	private IGestionarComicLocal gestionarComicEJB;
-
+	
 	/**
 	 * 
 	 * Metodo encargado de traer la informacion de un comic determiando
@@ -65,6 +77,13 @@ public class GestionarComicRest {
 
 	}
 
+	@GET
+	@Path("/consultarComicsValor")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ComicDTO> consultarComicsValor() {
+		return gestionarComicEJB.consultarComicsValor();
+
+	}
 	/**
 	 * 
 	 * Metodo encargado de traer la informacion de un comic determiando
@@ -130,4 +149,12 @@ public class GestionarComicRest {
 
 		}
 	}
+	
+	
+	
+	
+
+	
+	
+	
 }

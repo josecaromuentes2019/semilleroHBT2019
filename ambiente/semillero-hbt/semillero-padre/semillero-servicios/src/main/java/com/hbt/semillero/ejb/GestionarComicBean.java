@@ -13,10 +13,12 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.entidad.CalcularPrecioTotal;
 import com.hbt.semillero.entidad.Comic;
 
 /**
@@ -28,9 +30,40 @@ import com.hbt.semillero.entidad.Comic;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class GestionarComicBean implements IGestionarComicLocal {
+public class GestionarComicBean implements IGestionarComicLocal , CalcularPrecioTotal{
 	
 	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
+	
+	/**
+	 * Variables para calcular precio total
+	 */
+	
+	@Transient
+	private double iva;
+
+	@Transient
+	private double PrecioT;
+	
+	/**
+	 *metodos para setear las variables que calculan precio total
+	 */
+
+	public double getIva() {
+		return iva;
+	}
+
+	public void setIva(double iva) {
+		this.iva = iva;
+	}
+
+	public double getPrecioT() {
+		return PrecioT;
+	}
+
+	public void setPrecioT(double precioT) {
+		PrecioT = precioT;
+	}
+	
 
 	/**
 	 * Atributo em que se usa para interacturar con el contexto de persistencia.
@@ -157,5 +190,52 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		comic.setEstadoEnum(comicDTO.getEstadoEnum());
 		comic.setCantidad(comicDTO.getCantidad());
 		return comic;
+	}
+	
+	
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComics()
+	 */
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public List<ComicDTO> consultarComicsValor() {
+		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
+		logger.debug("se ejecuta el metodo consultar commit");
+		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
+		for (Comic comic:resultados) {
+			double precio = precioTotal(comic.getEstadoEnum().toString(),comic.getPrecio().doubleValue());
+			logger.debug("Valor del comics: "+comic.getEstadoEnum().toString()+ " "+precio);
+			resultadosComicDTO.add(convertirComicToComicDTO(comic));
+		}
+		return resultadosComicDTO;
+	}
+
+	@Override
+	public double precioTotal(String nombre, double precio) {
+			iva = precio;
+		
+		if(nombre.equals("AVENTURAS")) {
+			
+			return (iva*0.05) + precio;
+		} else if (nombre.equals("BELICO")) {
+			
+			return (iva*0.16) + precio;
+			
+		}else if(nombre.equals("DEPORTIVO")) {
+			return (iva*0.1) + precio;
+			
+		}else if(nombre.equals("FANTASTICO")) {
+			return (iva*0.05) + precio;
+			
+		}else if(nombre.equals("CIENCIA_FICCION")) {
+			return (iva*0.16) + precio;
+			
+		}else if(nombre.equals("HISTORICO")) {
+			return (iva*0.05) +precio;
+			
+		}
+		
+		return (iva*0.16) + precio;
+
 	}
 }

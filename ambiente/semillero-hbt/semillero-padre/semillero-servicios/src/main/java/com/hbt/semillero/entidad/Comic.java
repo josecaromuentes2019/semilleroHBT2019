@@ -16,6 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.hbt.semillero.dto.ComicDTO;
 
 /**
  * <b>Descripción:<b> Clase que determina la entidad que permite representar la
@@ -26,7 +29,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "COMIC")
-public class Comic implements Serializable {
+public class Comic implements Serializable{
 
 	/**
 	 * Serializar es pasar un Objeto a un array de bytes y viceversa. Atributo que
@@ -47,7 +50,10 @@ public class Comic implements Serializable {
 	private LocalDate fechaVenta;
 	EstadoEnum estadoEnum;
 	private Long cantidad;
+	
+	
 
+	
 	/**
 	 * Constructor de la clase.
 	 */
@@ -299,6 +305,9 @@ public class Comic implements Serializable {
 				+ autores + ", color=" + color + ", fechaVenta=" + fechaVenta + ", estado=" + estadoEnum + ", cantidad="
 				+ cantidad + "]";
 	}
+	
+	
+	
 
 	/**
 	 * @see java.lang.Object#hashCode() Este método viene a complementar al método
@@ -401,5 +410,7 @@ public class Comic implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 
 }

@@ -65,4 +65,5 @@ public interface IGestionarComicLocal {
 	 * @return
 	 */
 	public List<ComicDTO> consultarComics();
+	public List<ComicDTO> consultarComicsValor();
 }
