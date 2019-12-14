@@ -7,13 +7,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private miObjeto : any;
-  constructor(private router : Router) {
-    
-  }  
+  private miObjeto: any;
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
-    this.router.navigate(['bienvenida']);    
-    
+    this.router.navigate(['bienvenida']);
+
   }
 }

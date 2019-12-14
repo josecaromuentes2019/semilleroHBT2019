@@ -22,11 +22,12 @@ export { ResultadoDTO } from './semillero/dto/resultado.dto';
 import {EjemploService} from './semillero/services/ejemplo.service';
 import {AbstractService} from './semillero/services/template.service';
 
-/*
+/**
 *@description intruccion que importa la clase GestionarObjetoComponent
 */
 
 import { GestionarObjetoComponent } from './semillero/componentes/gestionarObjeto/gestionarObjeto.component';
+import { ConsultarComicComponent } from './consultarComic/consultarComic-component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { GestionarObjetoComponent } from './semillero/componentes/gestionarObjet
     BienvenidaComponent,
     CrearPersonaComponent,
     GestionarComicComponent,
-    GestionarObjetoComponent
+    GestionarObjetoComponent,
+    ConsultarComicComponent
   ],
   imports: [
     BrowserModule,
