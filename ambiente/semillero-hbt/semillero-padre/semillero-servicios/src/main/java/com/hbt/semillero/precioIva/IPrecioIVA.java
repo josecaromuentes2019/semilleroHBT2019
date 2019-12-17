@@ -1,5 +1,9 @@
 package com.hbt.semillero.precioIva;
 
+/**
+ * @autor jose caro
+ */
+
 import javax.ejb.Local;
 
 @FunctionalInterface

@@ -169,6 +169,11 @@ public class GestionarComicRest {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return precio con iva
+	 */
+	
 	@GET
 	@Path("/consultarComicsValor")
 	@Produces(MediaType.APPLICATION_JSON)

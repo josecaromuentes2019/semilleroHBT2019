@@ -42,6 +42,11 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	@PersistenceContext
 	private EntityManager em;
 	
+	
+	/**
+	 * metodo para calcular el precio con iva
+	 */
+	
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ComicDTO> consultarComicsValor() {
 		

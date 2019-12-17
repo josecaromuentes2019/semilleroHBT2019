@@ -15,6 +15,15 @@ import org.apache.log4j.Logger;
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
 
+
+/**
+ * 
+ * @author JOSECARO
+ * 
+ * clase para controlar el precio con iva
+ *
+ */
+
 public class PrecioConIva implements IPrecioIVA{
 	
 	private double iva;

@@ -75,5 +75,9 @@ public interface IGestionarComicLocal {
 	 */
 	public List<ComicDTO> consultarComics() throws ManejoExcepciones;
 	
+	/**
+	 * precio con iva
+	 * @return
+	 */
 	public List<ComicDTO> consultarComicsValor() ;
 }
