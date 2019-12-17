@@ -71,6 +71,7 @@ public class GestionarComicRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ComicDTO> consultarComic() {
 		
+		//manejo de la excepcion
 		try {
 			return gestionarComicEJB.consultarComics();
 		} catch (ManejoExcepciones e) {
@@ -94,6 +95,7 @@ public class GestionarComicRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ComicDTO consultarComic(@QueryParam("idComic") Long idComic) {
 		ComicDTO comicDTO = null;
+		//manejo de la excepcion
 		try {
 			if (idComic != null) {
 				 comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
@@ -135,6 +137,8 @@ public class GestionarComicRest {
 	@Path("/modificar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void modificarComic(@QueryParam("idComic") Long idComic, @QueryParam("nombre") String nombre) {
+		
+		//manejo de la excepcion
 		try {
 			gestionarComicEJB.modificarComic(idComic, nombre, null);
 		} catch (ManejoExcepciones e) {
@@ -154,6 +158,7 @@ public class GestionarComicRest {
 	public void eliminarComic(@QueryParam("idComic") Long idComic) {
 		if (idComic != null) {
 			
+			//manejo de la excepcion
 			try {
 				gestionarComicEJB.consultarComic(idComic.toString());
 			} catch (ManejoExcepciones e) {

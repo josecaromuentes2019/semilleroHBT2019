@@ -16,7 +16,9 @@ public interface IGestionarRol {
 		 * 
 		 * Metodo encargado de crear un comic y persistirlo
 		 * 
-		 * @author Eric Varilla
+		 * @author Jose caro
+		 * 
+		 * se agrega throws ManejoExcepciones para controlar la excepcio
 		 * 
 		 * @param comicNuevo informacion nueva a crear
 		 */
@@ -26,7 +28,7 @@ public interface IGestionarRol {
 		 * 
 		 * Metodo encargado de consultar un comic modificarlo y guardarlo
 		 * 
-		 * @author Eric Varilla
+		 * 
 		 * 
 		 * @param comicModificar informacion nueva a modificar
 		 */
@@ -36,7 +38,7 @@ public interface IGestionarRol {
 		 * 
 		 * Metodo encargado de eliminar un comic modificarlo y guardarlo
 		 * 
-		 * @author Eric Varilla
+		 * 
 		 * 
 		 * @param comicEliminar informacion a eliminar
 		 */
@@ -49,12 +51,16 @@ public interface IGestionarRol {
 		 * @param idComic identificador del comic a ser consultado
 		 * @return comic Resultado de la consulta
 		 * @throws Exception si no se recibe idComic
+		 * 
+		 * se agrega throws ManejoExcepciones para controlar la excepcio
 		 */
 		public RolDTO consultarRolPersonaje(String idRol) throws ManejoExcepciones;
 
 		/**
 		 * 
 		 * Metodo encargado de retornar una lista de comics
+		 * 
+		 * se agrega throws ManejoExcepciones para controlar la excepcio
 		 * 
 		 * @return
 		 */

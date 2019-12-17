@@ -3,7 +3,7 @@ package com.hbt.semillero.exception;
 public class ManejoExcepciones extends Exception {
 
 	/**
-	 * 
+	 * Clase personalizada para menejar excepciones
 	 */
 	private static final long serialVersionUID = 1L;
 	

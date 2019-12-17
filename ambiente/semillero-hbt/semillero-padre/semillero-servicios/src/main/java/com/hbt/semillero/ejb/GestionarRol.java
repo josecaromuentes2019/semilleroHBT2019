@@ -44,6 +44,8 @@ public class GestionarRol implements IGestionarRol {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void crearRolPersonaje(RolDTO rolNuevo) throws ManejoExcepciones {
 		logger.debug("Aqui inicia el metodo CrearROL");
+		
+		//manejo de la excepcion
 		try {
 			
 			// Entidad nueva

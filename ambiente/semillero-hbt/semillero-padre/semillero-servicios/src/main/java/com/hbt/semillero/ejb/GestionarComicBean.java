@@ -77,6 +77,7 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) throws ManejoExcepciones {
 		Comic comicModificar ;
+		//manejo de la excepcion
 		try {
 			if(comicNuevo==null) {
 				// Entidad a modificar
@@ -107,6 +108,7 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void eliminarComic(Long idComic) throws ManejoExcepciones {
 		
+		//manejo de la excepcion
 		try {
 			
 
@@ -132,6 +134,7 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	public ComicDTO consultarComic(String idComics) throws ManejoExcepciones  {
 		
 		logger.debug("Se ejecuta el comando consultar comics por Id");
+		//manejo de la excepcion
 		try {
 			Comic comic = null;
 			comic = new Comic();
@@ -165,6 +168,7 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		logger.debug("Se ejecuta el comando consultar comics");
 		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
 		
+		//manejo de la excepcion
 		try {
 			
 			List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();

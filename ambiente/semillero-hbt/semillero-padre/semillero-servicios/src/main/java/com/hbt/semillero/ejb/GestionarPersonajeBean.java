@@ -50,6 +50,7 @@ public class GestionarPersonajeBean implements IGestonarPersonajeLocal {
 	public void crearPersonaje(PersonajeDTO personajeNuevo) throws ManejoExcepciones {
 		logger.debug("Aqui inicia el metodo CrearPersonaje");
 		
+		//manejo de la excepcion
 		try {
 			// Entidad nueva
 			Personaje personaje = convertirPersonajeDTOToEntidad(personajeNuevo);
@@ -96,6 +97,7 @@ public class GestionarPersonajeBean implements IGestonarPersonajeLocal {
 
 		List<PersonajeDTO> resultadosPersonajeDTO = new ArrayList<PersonajeDTO>();
 		
+		//manejo de la excepcion
 		try {
 			List<Personaje> resultados = entityManager.createQuery("select c from Personaje c").getResultList();
 			

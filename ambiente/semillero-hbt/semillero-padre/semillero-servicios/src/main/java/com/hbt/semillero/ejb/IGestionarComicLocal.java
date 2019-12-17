@@ -36,6 +36,8 @@ public interface IGestionarComicLocal {
 	 * @author ccastano
 	 * 
 	 * @param comicModificar informacion nueva a modificar
+	 * 
+	 * se agrega throws ManejoExcepciones para controlar la excepcio
 	 */
 	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) throws ManejoExcepciones;
 
@@ -46,6 +48,8 @@ public interface IGestionarComicLocal {
 	 * @author ccastano
 	 * 
 	 * @param comicEliminar informacion a eliminar
+	 * 
+	 * se agrega throws ManejoExcepciones para controlar la excepcio
 	 */
 	public void eliminarComic(Long idComic) throws ManejoExcepciones;
 
@@ -56,12 +60,16 @@ public interface IGestionarComicLocal {
 	 * @param idComic identificador del comic a ser consultado
 	 * @return comic Resultado de la consulta
 	 * @throws Exception si no se recibe idComic
+	 * 
+	 * se agrega throws ManejoExcepciones para controlar la excepcio
 	 */
 	public ComicDTO consultarComic(String idComic) throws ManejoExcepciones;
 
 	/**
 	 * 
 	 * Metodo encargado de retornar una lista de comics
+	 * 
+	 * se agrega throws ManejoExcepciones para controlar la excepcio
 	 * 
 	 * @return
 	 */

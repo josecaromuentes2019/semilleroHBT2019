@@ -15,7 +15,7 @@ import com.hbt.semillero.exception.ManejoExcepciones;
  * necesita implementar pero no el como eso lo realiza la clase que la
  * implementa Palabras claves interface e implements
  * 
- * @author ccastano
+ * @author jose caro
  *
  */
 @Local
@@ -24,7 +24,7 @@ public interface IGestonarPersonajeLocal {
 	 * 
 	 * Metodo encargado de crear un personaje y persistirlo
 	 * 
-	 * @author ccastano
+	 * se agrega throws ManejoExcepciones para controlar la excepcio
 	 * 
 	 * @param personajeNuevo informacion nueva a crear
 	 */
@@ -34,7 +34,7 @@ public interface IGestonarPersonajeLocal {
 	 * 
 	 * Metodo encargado de consultar un personaje modificarlo y guardarlo
 	 * 
-	 * @author ccastano
+	 * 
 	 * 
 	 * @param personajeModificar informacion nueva a modificar
 	 */
@@ -44,7 +44,7 @@ public interface IGestonarPersonajeLocal {
 	 * 
 	 * Metodo encargado de eliminar un personaje modificarlo y guardarlo
 	 * 
-	 * @author ccastano
+	 *  
 	 * 
 	 * @param personajeEliminar informacion a eliminar
 	 */
@@ -57,6 +57,8 @@ public interface IGestonarPersonajeLocal {
 	 * @param idPersonaje identificador del personaje a ser consultado
 	 * @return personaje resultado de la consulta
 	 * @throws Exception si no se recibe idPersonaje
+	 * 
+	 * se agrega throws ManejoExcepciones para controlar la excepcio
 	 */
 	public  List<PersonajeDTO> consultarPersonaje() throws ManejoExcepciones;
 	

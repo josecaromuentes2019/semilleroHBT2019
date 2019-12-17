@@ -39,6 +39,7 @@ public class GestionarPersonajeRest {
 	@Path("/consultarPersonaje")
 	@Produces(MediaType.APPLICATION_JSON)
 	public  List<PersonajeDTO> consultarPersonaje(){
+		//manejo de la excepcion
 		try {
 			return gestionarPersonajeEJB.consultarPersonaje();
 		} catch (ManejoExcepciones e) {
@@ -53,6 +54,8 @@ public class GestionarPersonajeRest {
 	@Path("/consultarPersonajeId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PersonajeDTO>  consultarPersonajes(@QueryParam("idComic") Long idComic){
+		
+		//manejo de la excepcion
 		try {
 			return gestionarPersonajeEJB.consultarPersonajes(idComic);
 		} catch (ManejoExcepciones e) {
@@ -73,6 +76,8 @@ public class GestionarPersonajeRest {
 	@POST
 	@Path("/crearPersonaje")
 		public void crearPersonaje(PersonajeDTO personajeNuevo) {
+		
+		//manejo de la excepcion
 		try {
 			gestionarPersonajeEJB.crearPersonaje(personajeNuevo);
 		} catch (ManejoExcepciones e) {
