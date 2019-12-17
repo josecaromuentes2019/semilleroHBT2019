@@ -23,7 +23,7 @@ import {EjemploService} from './semillero/services/ejemplo.service';
 import {AbstractService} from './semillero/services/template.service';
 
 /**
-*@description intruccion que importa la clase GestionarObjetoComponent
+*@description intruccion para importa la clase GestionarObjetoComponent
 */
 
 import { GestionarObjetoComponent } from './semillero/componentes/gestionarObjeto/gestionarObjeto.component';

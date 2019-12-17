@@ -6,6 +6,9 @@ import { ObjetoComic } from '../../dto/modelo.dto';
 *@description Componente para dar informacion de nombre y ciudad
 */
 
+/**
+ * Metodo decorador
+ */
 @Component({
     // tslint:disable-next-line:component-selector
     selector : 'Actividad',
