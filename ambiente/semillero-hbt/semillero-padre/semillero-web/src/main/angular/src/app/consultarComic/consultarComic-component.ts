@@ -40,7 +40,6 @@ export class ConsultarComicComponent implements OnInit {
 
         let comic = this.activeroute.snapshot.params;
         this.consultarComic(comic);
-
     }
 
     /**

@@ -1,14 +1,25 @@
 package com.hbt.semillero.ejb;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
+import java.util.List;
+
+import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
+import com.hbt.semillero.exception.ManejoExcepciones;
 
 
+/**
+ * Expone los métodos del EJB GestionarComic Las interfaces determinan una
+ * especie de contrato donde se define las firmas de los metodos, define que se
+ * necesita implementar pero no el como eso lo realiza la clase que la
+ * implementa Palabras claves interface e implements
+ * 
+ * @author ccastano
+ *
+ */
 @Local
-public interface IGestionarPersonajeLocal {
+public interface IGestonarPersonajeLocal {
 	/**
 	 * 
 	 * Metodo encargado de crear un personaje y persistirlo
@@ -17,7 +28,7 @@ public interface IGestionarPersonajeLocal {
 	 * 
 	 * @param personajeNuevo informacion nueva a crear
 	 */
-	public void crearPersonaje(PersonajeDTO personajeNuevo);
+	public void crearPersonaje(PersonajeDTO personajeNuevo) throws ManejoExcepciones ;
 
 	/**
 	 * 
@@ -47,9 +58,9 @@ public interface IGestionarPersonajeLocal {
 	 * @return personaje resultado de la consulta
 	 * @throws Exception si no se recibe idPersonaje
 	 */
-	public  List<PersonajeDTO> consultarPersonaje();
+	public  List<PersonajeDTO> consultarPersonaje() throws ManejoExcepciones;
 	
-	public List<PersonajeDTO>  consultarPersonajes(Long idComic);
+	public List<PersonajeDTO>  consultarPersonajes(Long idComic)  throws ManejoExcepciones;
 
 	
 }

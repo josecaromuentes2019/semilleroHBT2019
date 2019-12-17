@@ -16,30 +16,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.hbt.semillero.dto.ComicDTO;
 
 /**
- * <b>Descripción:<b> Clase que determina la entidad que permite representar la
+ * <b>Descripcion:<b> Clase que determina la entidad que permite representar la
  * tabla "DB_SEMILLERO"."COMIC"
  * 
- * @author ccastano
+ * @author Jotive@gmail.com
  * @version
  */
 @Entity
 @Table(name = "COMIC")
-public class Comic implements Serializable{
+public class Comic implements Serializable {
 
 	/**
 	 * Serializar es pasar un Objeto a un array de bytes y viceversa. Atributo que
-	 * determina serialVersionUID es el id único que identifica una clase cuando lo
+	 * determina serialVersionUID es el id Ãºnico que identifica una clase cuando lo
 	 * serializamos. ;ediante este id podemos identificar el objeto convertido en un
 	 * array de bytes.
 	 */
 	private static final long serialVersionUID = 1L;
-	Long id;
-	String nombre;
+	private Long id;
+	private String nombre;
 	private String editorial;
 	private TematicaEnum tematicaEnum;
 	private String coleccion;
@@ -48,12 +45,9 @@ public class Comic implements Serializable{
 	private String autores;
 	private Boolean color;
 	private LocalDate fechaVenta;
-	EstadoEnum estadoEnum;
+	private EstadoEnum estadoEnum;
 	private Long cantidad;
-	
-	
 
-	
 	/**
 	 * Constructor de la clase.
 	 */
@@ -305,16 +299,13 @@ public class Comic implements Serializable{
 				+ autores + ", color=" + color + ", fechaVenta=" + fechaVenta + ", estado=" + estadoEnum + ", cantidad="
 				+ cantidad + "]";
 	}
-	
-	
-	
 
 	/**
-	 * @see java.lang.Object#hashCode() Este método viene a complementar al método
-	 *      equals y sirve para comparar objetos de una forma más rápida en
-	 *      estructuras Hash ya que únicamente nos devuelve un número entero. Cuando
+	 * @see java.lang.Object#hashCode() Este mÃ©todo viene a complementar al mÃ©todo
+	 *      equals y sirve para comparar objetos de una forma mÃ¡s rÃ¡pida en
+	 *      estructuras Hash ya que Ãºnicamente nos devuelve un nÃºmero entero. Cuando
 	 *      Java compara dos objetos en estructuras de tipo hash (HashMap, HashSet
-	 *      etc) primero invoca al método hashcode y luego el equals
+	 *      etc) primero invoca al mÃ©todo hashcode y luego el equals
 	 */
 	@Override
 	public int hashCode() {
@@ -410,7 +401,5 @@ public class Comic implements Serializable{
 			return false;
 		return true;
 	}
-
-	
 
 }

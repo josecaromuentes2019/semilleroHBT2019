@@ -3,27 +3,26 @@
  */
 package com.hbt.semillero.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Transient;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
+
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
-import com.hbt.semillero.ejb.GestionarPersonajeBean;
+import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarComicLocal;
-import com.hbt.semillero.entidad.CalcularPrecioTotal;
-import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.exception.ManejoExcepciones;
 
 /**
  * <b>Descripción:<b> Clase que determina el servicio rest que permite gestionar
@@ -35,17 +34,15 @@ import com.hbt.semillero.entidad.Comic;
 @Path("/GestionarComic")
 public class GestionarComicRest {
 
-	@Transient
-	private double iva;
-	
-	@PersistenceContext
-	private EntityManager em;
 	/**
 	 * Atriburo que permite gestionar un comic
 	 */
 	@EJB
 	private IGestionarComicLocal gestionarComicEJB;
 	
+	
+	final static Logger logger = Logger.getLogger(GestionarComicRest.class);
+
 	/**
 	 * 
 	 * Metodo encargado de traer la informacion de un comic determiando
@@ -73,17 +70,17 @@ public class GestionarComicRest {
 	@Path("/consultarComics")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ComicDTO> consultarComic() {
-		return gestionarComicEJB.consultarComics();
-
+		
+		try {
+			return gestionarComicEJB.consultarComics();
+		} catch (ManejoExcepciones e) {
+			
+			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
+		}
+			
+		return null;
 	}
 
-	@GET
-	@Path("/consultarComicsValor")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<ComicDTO> consultarComicsValor() {
-		return gestionarComicEJB.consultarComicsValor();
-
-	}
 	/**
 	 * 
 	 * Metodo encargado de traer la informacion de un comic determiando
@@ -96,11 +93,18 @@ public class GestionarComicRest {
 	@Path("/consultarComic")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ComicDTO consultarComic(@QueryParam("idComic") Long idComic) {
-		if (idComic != null) {
-			ComicDTO comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
-			return comicDTO;
+		ComicDTO comicDTO = null;
+		try {
+			if (idComic != null) {
+				 comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
+				return comicDTO;
+			}
+			
+		} catch (ManejoExcepciones e) {
+			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
 		}
-		return null;
+		
+		return comicDTO;
 	}
 
 	/**
@@ -127,11 +131,15 @@ public class GestionarComicRest {
 	 * @param idComic identificador del comic a buscar
 	 * @param nombre nombre nuevo del comic
 	 */
-	@POST
+	@PUT
 	@Path("/modificar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void modificarComic(@QueryParam("idComic") Long idComic, @QueryParam("nombre") String nombre) {
-		gestionarComicEJB.modificarComic(idComic, nombre, null);
+		try {
+			gestionarComicEJB.modificarComic(idComic, nombre, null);
+		} catch (ManejoExcepciones e) {
+			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
+		}
 	}
 
 	/**
@@ -140,21 +148,27 @@ public class GestionarComicRest {
 	 * 
 	 * @param idComic identificador del comic
 	 */
-	@POST
+	@DELETE
 	@Path("/eliminar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void eliminarComic(@QueryParam("idComic") Long idComic) {
 		if (idComic != null) {
-			ComicDTO comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
+			
+			try {
+				gestionarComicEJB.consultarComic(idComic.toString());
+			} catch (ManejoExcepciones e) {
+				
+				logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
+			}
 
 		}
 	}
 	
-	
-	
-	
+	@GET
+	@Path("/consultarComicsValor")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ComicDTO> consultarComicsValor() {
+		return gestionarComicEJB.consultarComicsValor();
 
-	
-	
-	
+	}
 }

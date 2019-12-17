@@ -1,5 +1,7 @@
 package com.hbt.semillero.entidad;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,24 +15,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
+
+/**
+ * <b>Descripcion:<b> Clase que determina la entidad que permite representar la
+ * tabla "DB_SEMILLERO"."COMIC"
+ * 
+ * @author Jotive@gmail.com
+ * @version
+ */
 @Entity
-@Table(name  = "PERSONAJE")
-public class Personaje {
-	
+@Table(name = "PERSONAJE")
+public class Personaje implements Serializable {
 
 	/**
-	 * Serializar es pasar un Objeto a un array de bytes y viceversa. Atributo que
-	 * determina serialVersionUID es el id Ãºnico que identifica una clase cuando lo
-	 * serializamos. ;ediante este id podemos identificar el objeto convertido en un
-	 * array de bytes.
+	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Metodo encargado de retornar el valor del atributo id
-	 * 
-	 * @return El id asociado a la clase
-	 */
+
 	@Id
 	@SequenceGenerator(allocationSize = 1, name = "PERSONAJE_ID_GENERATOR", sequenceName = "SEC_PERSONAJE")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSONAJE_ID_GENERATOR")
@@ -93,5 +95,8 @@ public class Personaje {
 	}
 	
 
+
+
 	
+
 }

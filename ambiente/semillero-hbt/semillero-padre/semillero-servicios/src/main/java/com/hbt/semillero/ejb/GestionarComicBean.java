@@ -13,13 +13,15 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Transient;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.hibernate.QueryException;
 
 import com.hbt.semillero.dto.ComicDTO;
-import com.hbt.semillero.entidad.CalcularPrecioTotal;
 import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.exception.ManejoExcepciones;
+import com.hbt.semillero.precioIva.PrecioConIva;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
@@ -30,46 +32,30 @@ import com.hbt.semillero.entidad.Comic;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class GestionarComicBean implements IGestionarComicLocal , CalcularPrecioTotal{
+public class GestionarComicBean implements IGestionarComicLocal {
 	
 	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
-	
-	/**
-	 * Variables para calcular precio total
-	 */
-	
-	@Transient
-	private double iva;
-
-	@Transient
-	private double PrecioT;
-	
-	/**
-	 *metodos para setear las variables que calculan precio total
-	 */
-
-	public double getIva() {
-		return iva;
-	}
-
-	public void setIva(double iva) {
-		this.iva = iva;
-	}
-
-	public double getPrecioT() {
-		return PrecioT;
-	}
-
-	public void setPrecioT(double precioT) {
-		PrecioT = precioT;
-	}
-	
 
 	/**
 	 * Atributo em que se usa para interacturar con el contexto de persistencia.
 	 */
 	@PersistenceContext
 	private EntityManager em;
+	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public List<ComicDTO> consultarComicsValor() {
+		
+		PrecioConIva precioIVA = new PrecioConIva();
+		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
+		logger.debug("se ejecuta el metodo consultar commit");
+		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
+		for (Comic comic:resultados) {
+			double precio = precioIVA.calcularPrecioConIva(comic.getEstadoEnum().toString(),comic.getPrecio().doubleValue());
+			logger.debug("Valor del comics: "+comic.getNombre()+ " Es: "+precio);
+			resultadosComicDTO.add(convertirComicToComicDTO(comic));
+		}
+		return resultadosComicDTO;
+	}
 
 	/**
 	 * 
@@ -85,59 +71,116 @@ public class GestionarComicBean implements IGestionarComicLocal , CalcularPrecio
 
 	/**
 	 * 
+	 * @throws ManejoExcepciones 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#modificarComic(com.hbt.semillero.dto.ComicDTO)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) {
+	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) throws ManejoExcepciones {
 		Comic comicModificar ;
-		if(comicNuevo==null) {
-			// Entidad a modificar
-			comicModificar = em.find(Comic.class, id);
-		}else {
-			comicModificar = convertirComicDTOToComic(comicNuevo);
+		try {
+			if(comicNuevo==null) {
+				// Entidad a modificar
+				//comicModificar = em.find(Comic.class, id);
+				comicModificar = (Comic) em.createQuery("SELECT FROM Comic c WHERE c.id = :idComic").setParameter("idComic", id).getSingleResult();
+				
+			}else {
+				comicModificar = convertirComicDTOToComic(comicNuevo);
+			}
+			comicModificar.setNombre(nombre);
+			//em.merge(comicModificar);
+			Query query = em.createQuery("UPDATE Comic c SET c.nombre = :nom WHERE c.id=:id").setParameter("nom",comicModificar.getNombre()).setParameter("id", id);
+			//comic = (Comic) query.getSingleResult();
+			query.executeUpdate();
+			
+		} catch (Exception e) {
+			logger.error("Error al eliminar el comic... " + e);
+			throw new ManejoExcepciones("COD-0003", "Error al ejecutar el metodo eliminar comic", e);
 		}
-		comicModificar.setNombre(nombre);
-		em.merge(comicModificar);
+	
 	}
 
 	/**
 	 * 
+	 * @throws ManejoExcepciones 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarComic(java.lang.Long)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void eliminarComic(Long idComic) {
-		Comic comicEliminar = em.find(Comic.class, idComic);
-		if (comicEliminar != null) {
-			em.remove(comicEliminar);
+	public void eliminarComic(Long idComic) throws ManejoExcepciones {
+		
+		try {
+			
+
+			Query query = em.createQuery("DELETE FROM Comic c WHERE c.id = :idComic").setParameter("idComic", idComic);
+			query.executeUpdate();
+			
+		} catch (Exception e) {
+			logger.error("Error al eliminar el comic... " + e);
+			throw new ManejoExcepciones("COD-0003", "Error al ejecutar el metodo eliminar comic", e);
 		}
+		//Comic comicEliminar = em.find(Comic.class, idComic);
+		//if (comicEliminar != null) {
+		//	em.remove(comicEliminar);
+		//}
 	}
 
 	/**
 	 * 
+	 * @throws ManejoExcepciones 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComic(java.lang.String)
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public ComicDTO consultarComic(String idComic) {
-		Comic comic = null;
-		comic = new Comic();
-		comic = em.find(Comic.class, Long.parseLong(idComic));
-		ComicDTO comicDTO = convertirComicToComicDTO(comic);
-		return comicDTO;
+	public ComicDTO consultarComic(String idComics) throws ManejoExcepciones  {
+		
+		logger.debug("Se ejecuta el comando consultar comics por Id");
+		try {
+			Comic comic = null;
+			comic = new Comic();
+			
+			Long idComic = Long.parseLong(idComics);
+			logger.debug("No se pudo pasar idComic a entero "+idComics);
+			//comic = em.find(Comic.class, Long.parseLong(idComic));
+			Query query = em.createQuery("SELECT c FROM Comic c WHERE c.id = :idComic").setParameter("idComic",idComic);
+			comic = (Comic) query.getSingleResult();
+			ComicDTO comicDTO = convertirComicToComicDTO(comic);
+			
+			return comicDTO;
+			
+		} catch (NumberFormatException e) {
+			logger.error("No se pudo pasar idComic a entero "+idComics);
+			throw new ManejoExcepciones("COD-0001", "ERROR no se pudo pasar "+idComics+ "de String a int", e);
+		}catch (Exception e) {
+			logger.error("No se pudo ejecutar la consulta, es posible que el: idComic ("+idComics+") no Exista");
+			throw new ManejoExcepciones("COD-0002", "ERROR ejecutando consultar por id verifica si existe "+idComics, e);
+		}
+		
 	}
 
 	/**
 	 * 
+	 * @throws ManejoExcepciones 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComics()
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public List<ComicDTO> consultarComics() {
+	public List<ComicDTO> consultarComics() throws ManejoExcepciones {
+		logger.debug("Se ejecuta el comando consultar comics");
 		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
-		logger.debug("se ejecuta el metodo consultar commit");
-		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
-		for (Comic comic:resultados) {
-			resultadosComicDTO.add(convertirComicToComicDTO(comic));
+		
+		try {
+			
+			List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
+			for (Comic comic:resultados) {
+				resultadosComicDTO.add(convertirComicToComicDTO(comic));
+			}
+			
+			
+		} catch (Exception e) {
+			
+			logger.error("Error al consultar los el comic... " + e);
+			throw new ManejoExcepciones("COD-0004", "Error al ejecutar el metodo consultarComics", e);
 		}
+		
 		return resultadosComicDTO;
+		
 	}
 
 	/**
@@ -190,52 +233,5 @@ public class GestionarComicBean implements IGestionarComicLocal , CalcularPrecio
 		comic.setEstadoEnum(comicDTO.getEstadoEnum());
 		comic.setCantidad(comicDTO.getCantidad());
 		return comic;
-	}
-	
-	
-	/**
-	 * 
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComics()
-	 */
-	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public List<ComicDTO> consultarComicsValor() {
-		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
-		logger.debug("se ejecuta el metodo consultar commit");
-		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
-		for (Comic comic:resultados) {
-			double precio = precioTotal(comic.getEstadoEnum().toString(),comic.getPrecio().doubleValue());
-			logger.debug("Valor del comics: "+comic.getEstadoEnum().toString()+ " "+precio);
-			resultadosComicDTO.add(convertirComicToComicDTO(comic));
-		}
-		return resultadosComicDTO;
-	}
-
-	@Override
-	public double precioTotal(String nombre, double precio) {
-			iva = precio;
-		
-		if(nombre.equals("AVENTURAS")) {
-			
-			return (iva*0.05) + precio;
-		} else if (nombre.equals("BELICO")) {
-			
-			return (iva*0.16) + precio;
-			
-		}else if(nombre.equals("DEPORTIVO")) {
-			return (iva*0.1) + precio;
-			
-		}else if(nombre.equals("FANTASTICO")) {
-			return (iva*0.05) + precio;
-			
-		}else if(nombre.equals("CIENCIA_FICCION")) {
-			return (iva*0.16) + precio;
-			
-		}else if(nombre.equals("HISTORICO")) {
-			return (iva*0.05) +precio;
-			
-		}
-		
-		return (iva*0.16) + precio;
-
 	}
 }

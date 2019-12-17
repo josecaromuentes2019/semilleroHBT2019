@@ -3,6 +3,7 @@ package com.hbt.semillero.rest;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -12,47 +13,55 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
+import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
-import com.hbt.semillero.dto.RolDTO;
-import com.hbt.semillero.ejb.IGestionarRol;
+import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.ejb.IGestonarPersonajeLocal;
 import com.hbt.semillero.exception.ManejoExcepciones;
 
-@Path("/GestionarRol")
-public class GestionarRolRest {
-	
+/**
+ * <b>Descripción:<b> Clase que determina el servicio rest que permite gestionar
+ * un comic
+ * 
+ * @author ccastano
+ * @version
+ */
+@Path("/GestionarPersonaje")
+public class GestionarPersonajeRest {
+
 	@EJB
-	private IGestionarRol iGestionarRol;
+	private IGestonarPersonajeLocal gestionarPersonajeEJB;
 	
-	final static Logger logger = Logger.getLogger(GestionarRolRest.class);
+	final static Logger logger = Logger.getLogger(GestionarPersonajeRest.class);
 
 	
 	@GET
-	@Path("/consultarRol")
+	@Path("/consultarPersonaje")
 	@Produces(MediaType.APPLICATION_JSON)
-	public  List<RolDTO> consultarRol(){
+	public  List<PersonajeDTO> consultarPersonaje(){
 		try {
-			return iGestionarRol.consultarRolPersonaje();
-		}  catch (ManejoExcepciones e) {
+			return gestionarPersonajeEJB.consultarPersonaje();
+		} catch (ManejoExcepciones e) {
 			
 			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
 		}
-		
 		return null;
+		
 	};
 	
 	@GET
 	@Path("/consultarPersonajeId")
 	@Produces(MediaType.APPLICATION_JSON)
-	public  RolDTO consultarRoles(@QueryParam("idRol") String idRol){
+	public List<PersonajeDTO>  consultarPersonajes(@QueryParam("idComic") Long idComic){
 		try {
-			return iGestionarRol.consultarRolPersonaje(idRol);
+			return gestionarPersonajeEJB.consultarPersonajes(idComic);
 		} catch (ManejoExcepciones e) {
 			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
 		}
+		
 		return null;
+		
 	};
-	
 	/**
 	 * 
 	 * Metodo encargado de crear un personaje y persistirlo
@@ -61,34 +70,21 @@ public class GestionarRolRest {
 	 * 
 	 * @param personajeNuevo informacion nueva a crear
 	 */
-	
-	/*@POST
-	@Path("/crearPersonaje")
-		public void crearPersonaje(RolDTO rolNuevo) {
-		iGestionarRol.crearRolPersonaje(rolNuevo);
-		
-	};*/
-	
 	@POST
-	@Path("/crearRol")
-		public void crearRol(RolDTO tolDtoNuevo) {
+	@Path("/crearPersonaje")
+		public void crearPersonaje(PersonajeDTO personajeNuevo) {
 		try {
-			iGestionarRol.crearRolPersonaje(tolDtoNuevo);
+			gestionarPersonajeEJB.crearPersonaje(personajeNuevo);
 		} catch (ManejoExcepciones e) {
 			
 			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
 		}
 		
 	};
-	
-	/*@POST
-	@Path("/crearPersonaje")
-		public void crearPersonaje(PersonajeDTO personajeNuevo) {
-		gestionarPersonajeEJB.crearPersonaje(personajeNuevo);
-		
-	};
 
-	*/
+	
 	
 
+
+	
 }

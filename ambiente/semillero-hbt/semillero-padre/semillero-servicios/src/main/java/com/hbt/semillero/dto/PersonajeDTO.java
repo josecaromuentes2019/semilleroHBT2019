@@ -2,12 +2,16 @@ package com.hbt.semillero.dto;
 
 import java.io.Serializable;
 
-import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.EstadoEnum;
 
+/**
+ * <b>Descripción:<b> Clase que determina el dto a usar para modificar,
+ * consultar y posteriormente eliminar un personaBean
+ * 
+ * @author ccastano
+ */
 public class PersonajeDTO implements Serializable{
-	
-	/*
+	/**
 	 * Atributo que determina
 	 */
 	
@@ -76,5 +80,4 @@ public class PersonajeDTO implements Serializable{
 	public String toString() {
 		return JsonUtils.toStringJson(this);
 	}
-
 }
