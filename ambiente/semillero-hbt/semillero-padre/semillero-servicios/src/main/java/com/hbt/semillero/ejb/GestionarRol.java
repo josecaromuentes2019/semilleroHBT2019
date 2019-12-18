@@ -39,10 +39,11 @@ public class GestionarRol implements IGestionarRol {
 		// TODO Auto-generated method stub
 		
 	}*/
-	
+
+
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void crearRolPersonaje(RolDTO rolNuevo) throws ManejoExcepciones {
+	public void crearRol(RolDTO rolNuevo) throws ManejoExcepciones {
 		logger.debug("Aqui inicia el metodo CrearROL");
 		
 		//manejo de la excepcion
@@ -56,8 +57,8 @@ public class GestionarRol implements IGestionarRol {
 		} catch (Exception e) {
 			
 
-			logger.error("Error al consultar los el comic... " + e);
-			throw new ManejoExcepciones("COD-0005", "Error al ejecutar el metodo crear personaje", e);
+			logger.error("Error al consultar los el Roles... " + e);
+			throw new ManejoExcepciones("COD-0005", "Error al ejecutar el metodo crear Rol", e);
 		}
 	
 		
@@ -73,15 +74,29 @@ public class GestionarRol implements IGestionarRol {
 	}
 
 	@Override
-	public void eliminarRolPersonaje(Long idRol) {
-		// TODO Auto-generated method stub
+	public void eliminarRolPersonaje(Long idRol) throws ManejoExcepciones {
+		
+			logger.debug("Aqui inicia el metodo EliminarPersonaje");
+		
+		// manejo de la excepcion
+		try {
+
+			Query query = entityManager.createQuery("DELETE FROM Rol c WHERE c.id = :idRol").setParameter("idRol", idRol);
+			query.executeUpdate();
+
+		} catch (Exception e) {
+			logger.error("Error al eliminar el Personaje... " + e);
+			throw new ManejoExcepciones("COD-0003", "Error al ejecutar el metodo eliminar Rol", e);
+		}
+
+		logger.debug("Aqui finaliza el metodo EliminarPersonaje");
 		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public RolDTO consultarRolPersonaje(String idRol) throws ManejoExcepciones {
-		logger.debug("Aqui inicia el metodo EliminarPersonaje");
+		logger.debug("Aqui inicia el metodo EliminarRol");
 
 		try {
 			Rol rol = null;
@@ -127,7 +142,7 @@ public class GestionarRol implements IGestionarRol {
 		} catch (Exception e) {
 			
 			logger.error("Error al consultar los el comic... " + e);
-			throw new ManejoExcepciones("COD-0004", "Error al ejecutar el metodo consultarComics", e);
+			throw new ManejoExcepciones("COD-0004", "Error al ejecutar el metodo consultarRoles", e);
 		}
 		
 		
@@ -139,9 +154,9 @@ public class GestionarRol implements IGestionarRol {
 	
 	/**
 	 * 
-	 * Metodo encargado de transformar un comicDTO a un comic
+	 * Metodo encargado de transformar un RolDTO a un Rol
 	 * 
-	 * @param comic
+	 * @param Rol
 	 * @return
 	 */
 	private Rol convertirRolDTOToEntidad(RolDTO rolDTO) {
@@ -156,7 +171,7 @@ public class GestionarRol implements IGestionarRol {
 
 	/**
 	 * 
-	 * Metodo encargado de transformar un comic a un comicDTO
+	 * Metodo encargado de transformar un Rol a un RolDTO
 	 * 
 	 * @param comic
 	 * @return

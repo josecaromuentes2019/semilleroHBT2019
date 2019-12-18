@@ -11,6 +11,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
@@ -71,25 +72,61 @@ public class GestionarPersonajeBean implements IGestonarPersonajeLocal {
 
 	/**
 	 * 
+	 * @throws ManejoExcepciones 
 	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#modificarPersonaje(com.hbt.semillero.dto.PersonajeDTO)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void modificarPersonaje(Long id, String nombre, PersonajeDTO personajeNuevo) {
+	public void modificarPersonaje(Long id, String nombre, PersonajeDTO personajeNuevo) throws ManejoExcepciones {
 		logger.debug("Aqui inicia el metodo ModificarPersonaje");
+		
+		Personaje personajeModificar;
+		// manejo de la excepcion
+		try {
 
-		logger.debug("Aqui finaliza el metodo ModificarPersonaje");
+			Query query = entityManager.createQuery("UPDATE Personaje c SET c.nombre = :nom WHERE c.id=:id")
+					.setParameter("nom", nombre).setParameter("id", id);
+
+			query.executeUpdate();
+
+		} catch (Exception e) {
+			logger.error("Error al eliminar el Personaje... " + e);
+			throw new ManejoExcepciones("COD-0003", "Error al ejecutar el metodo eliminar Personaje", e);
+		}
+
+		//logger.debug("Aqui finaliza el metodo ModificarPersonaje");
 	}
+	
+	
+	
+
+	
 
 	/**
 	 * 
+	 * @throws ManejoExcepciones 
 	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#eliminarPersonaje(java.lang.Long)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void eliminarPersonaje(Long idPersonaje) {
+	public void eliminarPersonaje(Long idPersonaje) throws ManejoExcepciones {
 		logger.debug("Aqui inicia el metodo EliminarPersonaje");
+		
+		// manejo de la excepcion
+		try {
+
+			Query query = entityManager.createQuery("DELETE FROM Personaje c WHERE c.id = :idPers").setParameter("idPers", idPersonaje);
+			query.executeUpdate();
+
+		} catch (Exception e) {
+			logger.error("Error al eliminar el Personaje... " + e);
+			throw new ManejoExcepciones("COD-0003", "Error al ejecutar el metodo eliminar Personaje", e);
+		}
 
 		logger.debug("Aqui finaliza el metodo EliminarPersonaje");
 	}
+	
+	
+
+	
 
 	@SuppressWarnings("unchecked")
 	public List<PersonajeDTO> consultarPersonaje() throws ManejoExcepciones {

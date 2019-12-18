@@ -38,7 +38,7 @@ public interface IGestonarPersonajeLocal {
 	 * 
 	 * @param personajeModificar informacion nueva a modificar
 	 */
-	public void modificarPersonaje(Long id, String nombre, PersonajeDTO personajeNuevo);
+	public void modificarPersonaje(Long id, String nombre, PersonajeDTO personajeNuevo) throws ManejoExcepciones;
 
 	/**
 	 * 
@@ -48,7 +48,7 @@ public interface IGestonarPersonajeLocal {
 	 * 
 	 * @param personajeEliminar informacion a eliminar
 	 */
-	public void eliminarPersonaje(Long idPersonaje);
+	public void eliminarPersonaje(Long idPersonaje) throws ManejoExcepciones ;
 
 	/**
 	 * 
@@ -63,6 +63,11 @@ public interface IGestonarPersonajeLocal {
 	public  List<PersonajeDTO> consultarPersonaje() throws ManejoExcepciones;
 	
 	public List<PersonajeDTO>  consultarPersonajes(Long idComic)  throws ManejoExcepciones;
+	
+	
+	
+	
+	//public void modificarPrsonaje(Long id, String nombre, PersonajeDTO comicNuevo) throws ManejoExcepciones;
 
 	
 }

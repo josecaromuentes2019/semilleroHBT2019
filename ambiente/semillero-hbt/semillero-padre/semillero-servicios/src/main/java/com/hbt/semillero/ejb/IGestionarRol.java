@@ -22,7 +22,7 @@ public interface IGestionarRol {
 		 * 
 		 * @param comicNuevo informacion nueva a crear
 		 */
-		public void crearRolPersonaje(RolDTO rolNuevo) throws ManejoExcepciones;
+		public void crearRol(RolDTO rolNuevo) throws ManejoExcepciones;
 
 		/**
 		 * 
@@ -42,7 +42,7 @@ public interface IGestionarRol {
 		 * 
 		 * @param comicEliminar informacion a eliminar
 		 */
-		public void eliminarRolPersonaje(Long idRol);
+		public void eliminarRolPersonaje(Long idRol) throws ManejoExcepciones;
 
 		/**
 		 * 
