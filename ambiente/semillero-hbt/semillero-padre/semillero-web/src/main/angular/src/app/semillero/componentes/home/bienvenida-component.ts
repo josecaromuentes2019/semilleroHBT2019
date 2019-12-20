@@ -33,7 +33,7 @@ export class BienvenidaComponent implements OnInit {
     });
 
 
-    this.comicDTO = new ComicDTO();    
+   /* this.comicDTO = new ComicDTO();    
     this.comicDTO.nombre = "BATAMAN";
     this.comicDTO.editorial = "perro";
     this.comicDTO.tematica = "no se";
@@ -49,7 +49,7 @@ export class BienvenidaComponent implements OnInit {
     
     this.ejemploService.crearComic(this.comicDTO).subscribe(respuesta => {
       console.log(respuesta);
-    });
+    });*/
 
    
   }

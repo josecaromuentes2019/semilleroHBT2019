@@ -1,7 +1,12 @@
 <div class="container">
+
+       
     <form [formGroup]="gestionarComicForm">
         <h1>Gestionar Comic</h1>
         <hr>
+        <div class="alert alert-danger" role="alert" *ngIf="bool_mensajeExito">
+               {{mensajeExito}}
+        </div>
 
         <div class="row">
             <div class="col-6">
@@ -115,7 +120,7 @@
                             <td>
                                 <i class="fas fa-search 2x ml-1"  title="Consultar"   [routerLink]="['/consultarComic',comic]"></i>
                                 <i class="fas fa-pencil-alt 2x ml-1"   (click)="consultarComic(i)" title="Editar"></i>
-                                <i class="far fa-times-circle 2x ml-1" (click)="eliminarRegistro(i)" title="Eliminar"></i>
+                                <i class="far fa-times-circle 2x ml-1" (click)="eliminarRegistro(comic)" title="Eliminar"></i>
                             </td>
                         </tr>
                     </tbody>

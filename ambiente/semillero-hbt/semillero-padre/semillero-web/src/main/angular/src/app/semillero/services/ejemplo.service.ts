@@ -18,16 +18,28 @@ export class EjemploService extends AbstractService {
   /**
    * Constructor
    */
-  constructor(injector: Injector, private httpClient : HttpClient) {
+  constructor(injector: Injector, private httpClient: HttpClient) {
     super(injector);
   }
 
-  
+
   public consultarComics(): Observable<any> {
     return this.httpClient.get('http://localhost:8085/semillero-servicios/rest/GestionarComic/consultarComics');
   }
 
-  public crearComic(comicDTO : ComicDTO): Observable<any> {
-    return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarComic/crear',comicDTO);
+  public crearComic(comicDTO: ComicDTO): Observable<any> {
+    return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarComic/crear', comicDTO);
   }
+  public eliminarComic(idComic: any): Observable<any> {
+      return this.httpClient
+   .post(`http://localhost:8085/semillero-servicios/rest/GestionarComic/eliminar?idComic=${idComic}`, null );
+  }
+
+  public editarComic(idComic: any, nombre: any): Observable<any> {
+    return this.httpClient
+  .post(`http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar?idComic=${Number(idComic)}&nombre=${nombre}`,
+   null );
+}
+
+
 }

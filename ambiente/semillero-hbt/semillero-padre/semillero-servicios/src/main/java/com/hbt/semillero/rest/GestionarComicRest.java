@@ -183,7 +183,7 @@ public class GestionarComicRest {
 	 * 
 	 * URI http://localhost:8085/semillero-servicios/rest/GestionarComic/eliminar?idComic=8 donde el 8 es el parametro id a eliminar
 	 */
-	@DELETE
+	@POST
 	@Path("/eliminar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response eliminarComic(@QueryParam("idComic") Long idComic) {

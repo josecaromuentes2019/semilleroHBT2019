@@ -3,6 +3,7 @@ import { ComicDTO } from '../../dto/comic.dto';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EjemploService } from '../../services/ejemplo.service';
 
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
@@ -60,11 +61,25 @@ export class GestionarComicComponent implements OnInit {
     public nombreEliminado: string;
 
     /**
+     *
+     *
+     * @param variable para poner mensaje de creacion de comic
+     */
+
+     public mensajeExito: string;
+
+    /**
+     * variable para mostrar div mensaje exito
+     */
+     public bool_mensajeExito: boolean;
+
+    /**
      * @description Este es el constructor del componente GestionarComicComponent
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
      */
     constructor(private fb: FormBuilder,
-        private router: Router) {
+        private router: Router,
+        private gestionarComicService: EjemploService) {
         this.gestionarComicForm = this.fb.group({
             nombre : [null, Validators.required],
             editorial : [null],
@@ -82,10 +97,24 @@ export class GestionarComicComponent implements OnInit {
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
      */
     ngOnInit(): void {
+
         this.idComic =  0;
         console.log('Ingreso al al evento oninit');
         this.comic = new ComicDTO();
         this.listaComics = new Array<ComicDTO>();
+        this.consultarComics();
+    }
+
+    /**
+     * @description metodo para consultar los comics
+     */
+
+    private consultarComics() {
+        this.gestionarComicService.consultarComics().subscribe(listaComics => {
+            this.listaComics = listaComics;
+        }, error => {
+            console.log('Ocurrio un error al momento de consumir el servicio consultarComic: ' + error);
+        });
     }
 
     /**
@@ -98,9 +127,9 @@ export class GestionarComicComponent implements OnInit {
         if (this.gestionarComicForm.invalid) {
             return;
         }
-        this.idComic++;
+        //this.idComic++;
         this.comic = new ComicDTO();
-        this.comic.id = this.idComic + '';
+        //this.comic.id = this.idComic + '';
         this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
         this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
         this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
@@ -109,19 +138,46 @@ export class GestionarComicComponent implements OnInit {
         this.comic.precio = this.gestionarComicForm.controls.precio.value;
         this.comic.autores = this.gestionarComicForm.controls.autores.value;
         this.comic.color = this.gestionarComicForm.controls.color.value;
+        this.comic.cantidad = 5;
+
+       /*
+            "estadoEnum": "ACTIVO",
+            "fechaVenta": "2019-12-16",
+            "id": "29",
+
+        }*/
 
         if ( this.banderaEditar ) {
 
             let mismaPosicion = this.indiceActualizar;
             mismaPosicion++;
-            this.comic.id = (mismaPosicion) + '';
-            this.listaComics[this.indiceActualizar] = this.comic;
-            this.banderaEditar = false;
+            //this.comic.id = (mismaPosicion) + '';
+           // this.listaComics[this.indiceActualizar] = this.comic;
+
+            this.limpiarFormulario();
+
+            this.gestionarComicService.editarComic(114, this.comic.nombre).subscribe(resultado => {
+                this.consultarComics();
+                this.banderaEditar = false;
+            }, error => {
+                console.log('dio errror', error);
+            });
         } else {
 
-        this.listaComics.push(this.comic);
+            this.gestionarComicService.crearComic(this.comic).subscribe(resultado => {
+                this.mensajeExito = resultado.mensajeEjecucion;
+                this.bool_mensajeExito = true;
+                if (resultado.exitoso) {
+                this.limpiarFormulario();
+                this.consultarComics();
+                }
+            }, error => {
+                console.log('Ocurrio un error al momento de dcrear el comic');
+            });
+
+        //this.listaComics.push(this.comic);
         }
-        this.limpiarFormulario();
+       // this.limpiarFormulario();
 
     }
 
@@ -180,10 +236,24 @@ export class GestionarComicComponent implements OnInit {
     /**
      * @description Metodo para eliminar Registros
      */
-    public eliminarRegistro(indice: number) {
+    public eliminarRegistro(comic: ComicDTO) {
+
         this.eliminado = true;
-        this.nombreEliminado = this.listaComics[indice].nombre;
-        this.listaComics.splice(indice, 1);
+       // let id = Number(this.listaComics[indice].id);
+
+        //console.log('idddddd', id, 'indiceeee', indice);
+
+
+        //this.nombreEliminado = this.listaComics[indice].nombre;
+        //this.listaComics.splice(indice, 1);
+
+        this.gestionarComicService.eliminarComic(comic.id).subscribe(resultado => {
+            alert(resultado.mensajeEjecucion);
+
+        }, error => {
+            console.log('eliminarrrr', error.exito);
+            this.consultarComics();
+        });
 
     }
 
