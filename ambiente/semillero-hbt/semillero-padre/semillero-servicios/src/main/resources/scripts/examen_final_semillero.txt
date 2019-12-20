@@ -1,0 +1,52 @@
+create table ventaporpersona (
+  ventapers_id number(10) not null,
+  ventapers_nombre varchar2(50) not null,
+  ventapers_documento number(16) not null,
+  ventapers_fecha_nacimiento date,
+  
+  constraint "PK_ventaporpersona" PRIMARY KEY (ventapers_id)
+);
+
+create sequence "SEC_VENTAPORPERSONAJE" minvalue 1 start with 1 increment by 1;
+
+
+
+
+create table compracomic (
+  compracomic_id number(10) not null,
+  compracomic_nombre varchar2(50) not null,
+  compracomic_comprados number(16) not null,
+  compracomic_fecha_venta date,
+  compracomic_estado  varchar2(50) not null,
+  
+  constraint "compracomic_estado_CHK" check (compracomic_estado IN('ACTIVO')),
+  
+  constraint "PK_compracomic_id" PRIMARY KEY (compracomic_id)
+);
+
+create sequence "SEC_COMPRACOMIC" minvalue 1 start with 1 increment by 1;
+
+
+
+
+create table compradetallada (
+  compradetallada_id number(10) not null,
+  compradetallada_id_persona number(10) not null,
+  compradetallada_id_venta number(10) not null,
+  
+  
+   constraint "PK_compradetallada_id" PRIMARY KEY (compradetallada_id)
+);
+
+ALTER TABLE compradetallada
+ADD CONSTRAINT "FK_VENTA_ID"
+   FOREIGN KEY (compradetallada_id_venta)
+   REFERENCES ventaporpersona  (ventapers_id );
+   
+   
+ALTER TABLE compradetallada
+ADD CONSTRAINT "FK_COMPRA_ID"
+   FOREIGN KEY (compradetallada_id_persona)
+   REFERENCES compracomic   (compracomic_id  );
+
+create sequence "SEC_COMPRADETALLADA" minvalue 1 start with 1 increment by 2;
