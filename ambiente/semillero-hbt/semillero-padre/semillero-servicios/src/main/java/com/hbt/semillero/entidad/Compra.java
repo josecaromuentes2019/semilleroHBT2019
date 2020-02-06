@@ -13,38 +13,17 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "COMPRACOMIC")
+@Table(name = "COMPRA")
 public class Compra {
 	
 	
 	@Id
-	@SequenceGenerator(allocationSize = 1, name = "COMPRA_ID_GENERATOR", sequenceName = "SEC_COMPRACOMIC")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMPRA_ID_GENERATOR")
-	private Long idCompra;  
+	private PKcompra pk;
 	
-	
-	@Column(name = "COMPRACOMIC_ID")
+	@Column(name = "COM_NOMBRE")
 	private String nombre;
 	
 	
-	@Column(name = "COMPRACOMIC_COMPRADOS")
-	private Long comicComprado; 
-	
-	
-	@Column(name = "COMPRACOMIC_FECHA_VENTA")
-	private LocalDate fechaCompra;
-
-
-	public Long getIdCompra() {
-		return idCompra;
-	}
-
-
-	public void setIdCompra(Long idCompra) {
-		this.idCompra = idCompra;
-	}
-
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -55,14 +34,17 @@ public class Compra {
 	}
 
 
-	public LocalDate getFechaCompra() {
-		return fechaCompra;
+	public PKcompra getPk() {
+		return pk;
 	}
 
 
-	public void setFechaCompra(LocalDate fechaCompra) {
-		this.fechaCompra = fechaCompra;
+	public void setPk(PKcompra pk) {
+		this.pk = pk;
 	}
+
+	
+	
 	
 	
 

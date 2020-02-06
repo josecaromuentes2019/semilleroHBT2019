@@ -6,49 +6,47 @@ import javax.persistence.Column;
 
 public class CompraDTO {
 	
+
 	
-	private Long idCompra; 
 	private String nombre;
-	private Long comicComprado; 
 	private LocalDate fechaCompra;
+	private Long idCliente; 
+	private Long idComic;
 	
 	
-
-	public Long getIdCompra() {
-		return idCompra;
-	}
-	
-
-	public void setIdCompra(Long idCompra) {
-		this.idCompra = idCompra;
-	}
-
-
 	public String getNombre() {
 		return nombre;
 	}
-
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 	public LocalDate getFechaCompra() {
 		return fechaCompra;
 	}
-
+	
 	public void setFechaCompra(LocalDate fechaCompra) {
 		this.fechaCompra = fechaCompra;
 	}
-
-
-	public Long getComicComprado() {
-		return comicComprado;
+	
+	public Long getIdCliente() {
+		return idCliente;
 	}
-
-
-	public void setComicComprado(Long comicComprado) {
-		this.comicComprado = comicComprado;
+	
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
 	}
+	
+	public Long getIdComic() {
+		return idComic;
+	}
+	
+	public void setIdComic(Long idComic) {
+		this.idComic = idComic;
+	} 
+	
+	
+
 	
 	
 	

@@ -300,7 +300,15 @@ public class Comic implements Serializable {
 	@JoinTable(name= "COMPRA", joinColumns={@JoinColumn(name="SCID")},
 				inverseJoinColumns={@JoinColumn(name="CLIE_ID")})
 	private Collection<Clientes> cliente;
+
 	
+	public Collection<Clientes> getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Collection<Clientes> cliente) {
+		this.cliente = cliente;
+	}
 
 	/**
 	 * @see java.lang.Object#toString() Metodo que permite asociar al objeto un
