@@ -15,18 +15,18 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
-import com.hbt.semillero.dto.PersonaClienteDTO;
+import com.hbt.semillero.dto.ClienteDTO;
+import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
-import com.hbt.semillero.ejb.IGestonarPersonajeLocal;
-import com.hbt.semillero.ejb.IPersonaClienteLocal;
+import com.hbt.semillero.ejb.IGestionarClienteLocal;
 import com.hbt.semillero.exception.ManejoExcepciones;
 
-@Path("/GestionarPersonaCliente")
-public class GestionarPersonaRest {
+@Path("/GestionarClientes")
+public class GestionarClienteRest {
 	
 	@EJB
-	private IPersonaClienteLocal gestionarPersonaEJB;
+	private IGestionarClienteLocal gestionarClienteEJB;
 	
 	final static Logger logger = Logger.getLogger(GestionarPersonajeRest.class);
 	
@@ -34,53 +34,57 @@ public class GestionarPersonaRest {
 	private EntityManager em;
 	
 	
-	
-	@GET
-	@Path("/consultarPersonaCliente")
+	@POST
+	@Path("/crearCliente")
 	@Produces(MediaType.APPLICATION_JSON)
-	public  Response consultarPersona(){
-		List<PersonaClienteDTO> personaDTO= null;
+	@Consumes(MediaType.APPLICATION_JSON)
+		public Response crearCliente(ClienteDTO clienteNuevo) {
+		
 		//manejo de la excepcion
 		try {
-			personaDTO = gestionarPersonaEJB.consultarPersona();
+			gestionarClienteEJB.crearCliente(clienteNuevo);
+			ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Cliente Creado exitosamente");
+			return Response.status(Response.Status.OK).entity(resultadoDTO).build();
+		} catch (ManejoExcepciones e) {
 			
-			if(personaDTO.size()!=0) {
-				return Response.status(Response.Status.OK).entity(personaDTO).build();
+			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
+			return Response.status(Response.Status.BAD_REQUEST)
+					   .entity("Se presento un fallo en la Creacion del cliente")
+					   .build();
+		}
+		
+	};
+	
+	
+	
+	
+	
+	
+	@GET
+	@Path("/consultarClientes")
+	@Produces(MediaType.APPLICATION_JSON)
+	public  Response consultarClientes(){
+		List<ClienteDTO> clienteDTO= null;
+		//manejo de la excepcion
+		try {
+			clienteDTO = gestionarClienteEJB.consultarCliente();
+			//ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Personajes Listados exitosamente");
+			if(clienteDTO.size()!=0) {
+				return Response.status(Response.Status.OK).entity(clienteDTO).build();
 			}else {
-				return Response.status(Response.Status.OK).entity("No hay datos en persona Cliente").build();
+				return Response.status(Response.Status.OK).entity("No hay datos en cliente").build();
 			}
 			
 		} catch (ManejoExcepciones e) {
 			
 			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
 			return Response.status(Response.Status.BAD_REQUEST)
-					   .entity("Se presento un fallo al consultar el Personajes  cliente")
+					   .entity("Se presento un fallo al consultar el clinte")
 					   .build();
 		}
 		
 		
 	};
 	
-	
-	@POST
-	@Path("/crearPersonacliente")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-		public Response crearPersonaje(PersonaClienteDTO personaNuevo) {
-		
-		//manejo de la excepcion
-		try {
-			gestionarPersonaEJB.crearPersona(personaNuevo);
-			ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Personaje cliente Creado exitosamente");
-			return Response.status(Response.Status.OK).entity(resultadoDTO).build();
-		} catch (ManejoExcepciones e) {
-			
-			logger.error("Se capturo la excepcion "+e.getCodigo()+ " mensaje: "+e.getMensaje());
-			return Response.status(Response.Status.BAD_REQUEST)
-					   .entity("Se presento un fallo en la Creacion del Personaje cliente")
-					   .build();
-		}
-		
-	};
 
 }

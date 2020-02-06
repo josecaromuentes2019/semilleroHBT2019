@@ -6,6 +6,7 @@ package com.hbt.semillero.entidad;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -287,6 +291,16 @@ public class Comic implements Serializable {
 	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
 	}
+	
+	/**
+	 * Creacion de la relacion muchos a muchos
+	 */
+	
+	@ManyToMany
+	@JoinTable(name= "COMPRA", joinColumns={@JoinColumn(name="SCID")},
+				inverseJoinColumns={@JoinColumn(name="CLIE_ID")})
+	private Collection<Clientes> cliente;
+	
 
 	/**
 	 * @see java.lang.Object#toString() Metodo que permite asociar al objeto un

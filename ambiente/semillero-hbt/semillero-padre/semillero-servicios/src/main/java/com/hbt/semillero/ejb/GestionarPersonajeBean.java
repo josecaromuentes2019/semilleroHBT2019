@@ -61,7 +61,7 @@ public class GestionarPersonajeBean implements IGestonarPersonajeLocal {
 		} catch (Exception e) {
 			
 
-			logger.error("Error al consultar los el comic... " + e);
+			logger.error("Error al crear el personaje... " + e);
 			throw new ManejoExcepciones("COD-0005", "Error al ejecutar el metodo crear personaje", e);
 		}
 		

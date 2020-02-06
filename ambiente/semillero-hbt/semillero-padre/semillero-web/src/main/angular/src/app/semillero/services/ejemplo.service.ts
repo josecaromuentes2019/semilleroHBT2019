@@ -37,7 +37,7 @@ export class EjemploService extends AbstractService {
 
   public editarComic(idComic: any, nombre: any): Observable<any> {
     return this.httpClient
-  .post(`http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar?idComic=${Number(idComic)}&nombre=${nombre}`,
+  .post(`http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar?idComic=${idComic}&nombre=${nombre}`,
    null );
 }
 
