@@ -28,6 +28,8 @@ import {AbstractService} from './semillero/services/template.service';
 
 import { GestionarObjetoComponent } from './semillero/componentes/gestionarObjeto/gestionarObjeto.component';
 import { ConsultarComicComponent } from './consultarComic/consultarComic-component';
+import { ComprasComponent } from './semillero/componentes/compras/compras.component';
+import { ClientesComponent } from './semillero/componentes/clientes/clientes.component';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { ConsultarComicComponent } from './consultarComic/consultarComic-compone
     CrearPersonaComponent,
     GestionarComicComponent,
     GestionarObjetoComponent,
-    ConsultarComicComponent
+    ConsultarComicComponent,
+    ComprasComponent,
+    ClientesComponent
   ],
   imports: [
     BrowserModule,

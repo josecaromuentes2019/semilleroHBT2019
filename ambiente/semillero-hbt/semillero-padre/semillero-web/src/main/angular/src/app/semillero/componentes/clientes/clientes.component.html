@@ -1,0 +1,56 @@
+<div class="container">
+
+       
+    <form [formGroup]="gestionarClienteForm">
+        <h1>Gestionar Clientes</h1>
+        <hr>
+        
+
+        <div class="row">
+            <div class="col-6">
+                <label for="nombrecliente">Nombre:</label>
+                <input type="text" class="form-control"  id="nombrecliente" formControlName="nombre">
+               
+            </div>
+
+            <div class="col-6">
+                <label for="fecha">Fecha de Nacimiento:</label>
+                <input type="text" class="form-control"  id="fecha" formControlName="fechaNacimiento" 
+                [ngClass]="{ 'is-invalid': submitted && f.fechaNacimiento.errors  }">
+                <div *ngIf="submitted && f.fechaNacimiento.errors">
+                    <span class="text-danger" *ngIf="f.fechaNacimiento.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+        </div>
+
+     
+
+        <div class="row">
+            <div class="col-6">
+                <label for="idcliente">Identidad:</label>
+                <input type="number" class="form-control" id="identidad" formControlName="identificacion"
+                [ngClass]="{ 'is-invalid': submitted && f.identificacion.errors  }">
+                <div *ngIf="submitted && f.identificacion.errors">
+                    <span class="text-danger" *ngIf="f.identificacion.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+
+
+        </div>
+
+      
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <span></span>
+            </div>
+            <div class="col-6 text-right">
+                <button type="button" class="btn btn-primary" (click)="crearCliente()">Crear/Editar</button>
+            </div>
+        </div>
+
+
+     
+    </form>
+
+</div>

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Injector } from "@angular/core";
+import { Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/toPromise';
 import { AbstractService } from './template.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ComicDTO } from '../dto/comic.dto';
+import { CompraDTO } from '../dto/compra.dto';
+import { ClienteDTO } from '../dto/cliente.dto';
 
 /**
  * Servicio encargado de llamar a los servicios REST de
@@ -39,6 +41,14 @@ export class EjemploService extends AbstractService {
     return this.httpClient
   .post(`http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar?idComic=${idComic}&nombre=${nombre}`,
    null );
+}
+
+public crearCompras(comicDTO: CompraDTO): Observable<any> {
+  return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarCompra/crearCompra', comicDTO);
+}
+
+public crearClientes(clienteDTO: ClienteDTO): Observable<any> {
+  return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarClientes/consultarClientes', clienteDTO);
 }
 
 

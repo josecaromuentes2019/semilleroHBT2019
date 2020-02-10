@@ -1,5 +1,6 @@
 package com.hbt.semillero.ejb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -29,7 +30,7 @@ public class GestionarCompraBean implements IGestionarCompraLocal{
 	@Override
 	public void crearCompra(CompraDTO compraNuevo) throws ManejoExcepciones {
 		// TODO Auto-generated method stub
-		logger.debug("Aqui inicia el metodo CrearPersonaje");
+		logger.debug("Aqui inicia el metodo CrearCompra");
 		
 		try {
 			// Entidad nueva
@@ -41,19 +42,38 @@ public class GestionarCompraBean implements IGestionarCompraLocal{
 			
 
 			logger.error("Error al crear el cliente... " + e);
-			throw new ManejoExcepciones("COD-0005", "Error al ejecutar el metodo crear personaje", e);
+			throw new ManejoExcepciones("COD-0005", "Error al ejecutar el metodo crear compra", e);
 		}
 		
 		
 		
-		logger.debug("Aqui finaliza el metodo CrearPersonaje");
+		logger.debug("Aqui finaliza el metodo CrearCompra");
 		
 	}
 
 	@Override
 	public List<CompraDTO> consultarCompra() throws ManejoExcepciones {
-		// TODO Auto-generated method stub
-		return null;
+		logger.debug("Aqui inicia el metodo consulta cliente");
+
+		List<CompraDTO> resultadosCompraDTO = new ArrayList<CompraDTO>();
+		
+		//manejo de la excepcion
+		try {
+			List<Compra> resultados = entityManager.createQuery("select c from Compra c").getResultList();
+			System.out.println(resultados);
+
+			for (Compra c:resultados) {
+				resultadosCompraDTO.add(convertirEntidadToCompraTO(c));
+			}
+			
+			
+		} catch (Exception e) {
+			
+			logger.error("Error al consultar los el Cliente... " + e);
+			throw new ManejoExcepciones("COD-0004", "Error al ejecutar el metodo consultarcliente", e);
+		}
+		
+		return resultadosCompraDTO;
 	}
 
 	@Override
@@ -82,6 +102,18 @@ public class GestionarCompraBean implements IGestionarCompraLocal{
 		compra.setPk(new PKcompra(compraDTO.getIdCliente(),compraDTO.getIdComic(),compraDTO.getFechaCompra()));
 
 		return compra;
+	}
+	
+	
+	private CompraDTO convertirEntidadToCompraTO(Compra compra) {
+		CompraDTO compraDTO = new CompraDTO();
+	
+		compraDTO.setNombre(compra.getNombre());
+		compraDTO.setIdCliente(compra.getPk().getIdClinete());
+		compraDTO.setFechaCompra(compra.getPk().getFecha());
+		compraDTO.setIdComic(compra.getPk().getIdComic());
+		
+		return compraDTO;
 	}
 
 }

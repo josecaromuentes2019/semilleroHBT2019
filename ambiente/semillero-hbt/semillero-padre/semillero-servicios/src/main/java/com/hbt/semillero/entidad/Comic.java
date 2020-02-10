@@ -296,7 +296,7 @@ public class Comic implements Serializable {
 	 * Creacion de la relacion muchos a muchos
 	 */
 	
-	@ManyToMany
+	/*@ManyToMany
 	@JoinTable(name= "COMPRA", joinColumns={@JoinColumn(name="SCID")},
 				inverseJoinColumns={@JoinColumn(name="CLIE_ID")})
 	private Collection<Clientes> cliente;
@@ -308,7 +308,7 @@ public class Comic implements Serializable {
 
 	public void setCliente(Collection<Clientes> cliente) {
 		this.cliente = cliente;
-	}
+	}*/
 
 	/**
 	 * @see java.lang.Object#toString() Metodo que permite asociar al objeto un

@@ -35,7 +35,7 @@ public class GestionarClienteBean implements IGestionarClienteLocal{
 	@Override
 	public void crearCliente(ClienteDTO clienteNuevo) throws ManejoExcepciones {
 		
-			logger.debug("Aqui inicia el metodo CrearPersonaje");
+			logger.debug("Aqui inicia el metodo CrearCliente");
 		
 		//manejo de la excepcion
 		try {
@@ -48,12 +48,12 @@ public class GestionarClienteBean implements IGestionarClienteLocal{
 			
 
 			logger.error("Error al crear el cliente... " + e);
-			throw new ManejoExcepciones("COD-0005", "Error al ejecutar el metodo crear personaje", e);
+			throw new ManejoExcepciones("COD-0005", "Error al ejecutar el metodo crear cliente", e);
 		}
 		
 	
 		
-		logger.debug("Aqui finaliza el metodo CrearPersonaje");
+		logger.debug("Aqui finaliza el metodo Crearcliente");
 		
 	}
 
@@ -76,7 +76,7 @@ public class GestionarClienteBean implements IGestionarClienteLocal{
 		} catch (Exception e) {
 			
 			logger.error("Error al consultar los el Cliente... " + e);
-			throw new ManejoExcepciones("COD-0004", "Error al ejecutar el metodo consultarComics", e);
+			throw new ManejoExcepciones("COD-0004", "Error al ejecutar el metodo consultarcliente", e);
 		}
 		
 		return resultadosClienteDTO;

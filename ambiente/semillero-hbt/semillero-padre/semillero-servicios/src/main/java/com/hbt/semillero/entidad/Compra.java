@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,7 +21,7 @@ public class Compra {
 	@Id
 	private PKcompra pk;
 	
-	@Column(name = "COM_NOMBRE")
+	//@Column(name = "COM_NOMBRE")
 	private String nombre;
 	
 	

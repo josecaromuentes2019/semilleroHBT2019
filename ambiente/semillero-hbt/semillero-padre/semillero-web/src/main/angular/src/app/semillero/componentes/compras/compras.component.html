@@ -1,0 +1,64 @@
+<div class="container">
+
+       
+    <form [formGroup]="gestionarCompraForm">
+        <h1>Gestionar Compra</h1>
+        <hr>
+        
+
+        <div class="row">
+            <div class="col-6">
+                <label for="nombrecliente">Nombre:</label>
+                <input type="text" class="form-control" id="nombreComic" id="nombrecliente" formControlName="nombre">
+               
+            </div>
+
+            <div class="col-6">
+                <label for="fecha">Fecha Venta:</label>
+                <input type="text" class="form-control"  id="fecha" formControlName="fechaCompra" 
+                [ngClass]="{ 'is-invalid': submitted && f.fechaCompra.errors  }">
+                <div *ngIf="submitted && f.fechaCompra.errors">
+                    <span class="text-danger" *ngIf="f.fechaCompra.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+        </div>
+
+     
+
+        <div class="row">
+            <div class="col-6">
+                <label for="idcliente">Id del Cliente:</label>
+                <input type="number" class="form-control" id="idcliente" formControlName="idCliente"
+                [ngClass]="{ 'is-invalid': submitted && f.idCliente.errors  }">
+                <div *ngIf="submitted && f.fechaCompra.errors">
+                    <span class="text-danger" *ngIf="f.idCliente.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="idcomic">Id del Comic:</label>
+                <input type="number" class="form-control" id="precio" step=".01" id="idcomic" formControlName="idComic"
+                [ngClass]="{ 'is-invalid': submitted && f.idComic.errors  }">
+                <div *ngIf="submitted && f.fechaCompra.errors">
+                    <span class="text-danger" *ngIf="f.idComic.errors.required">Campo requerido.</span>
+                </div>
+
+            </div>
+        </div>
+
+      
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <span></span>
+            </div>
+            <div class="col-6 text-right">
+                <button type="button" class="btn btn-primary" (click)="crearCompra()">Crear/Editar</button>
+            </div>
+        </div>
+
+
+     
+    </form>
+
+</div>
