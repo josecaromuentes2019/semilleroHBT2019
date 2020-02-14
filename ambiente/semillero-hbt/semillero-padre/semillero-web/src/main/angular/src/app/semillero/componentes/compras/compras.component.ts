@@ -105,7 +105,7 @@ export class ComprasComponent implements OnInit {
     this.compra.fechaCompra = this.gestionarCompraForm.controls.fechaCompra.value;
     this.compra.idComic = this.gestionarCompraForm.controls.idComic.value;
 
-    //console.log(this.compra);
+
 
         this.gestionarCompraService.crearCompras(this.compra).subscribe(resultado => {
             this.mensajeExito = resultado.mensajeEjecucion;

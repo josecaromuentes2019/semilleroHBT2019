@@ -43,8 +43,8 @@ export class EjemploService extends AbstractService {
    null );
 }
 
-public crearCompras(compraDTO: CompraDTO): Observable<any> {
-  return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarCompra/crearCompra', compraDTO);
+public crearCompras(comicDTO: CompraDTO): Observable<any> {
+  return this.httpClient.post('http://localhost:8085/semillero-servicios/rest/GestionarCompra/crearCompra', comicDTO);
 }
 
 public crearClientes(clienteDTO: ClienteDTO): Observable<any> {
